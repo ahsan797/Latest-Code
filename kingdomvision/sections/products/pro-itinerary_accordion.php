@@ -145,10 +145,10 @@ echo '<section class="itinerary-accordion full-section '.esc_attr($section_text_
                                                 echo '<a href="javascript:;" 
                                                         hotelPermalink = '.get_the_permalink($posts).'
                                                         hotelTitle="'.get_the_title($posts).'"
-                                                        hotelHighlights="'.esc_attr(json_encode($highlightTexts)).'"
+                                                        hotelHighlights="'.esc_attr(wp_json_encode($highlightTexts)).'"
                                                         hotelDescriptions="'.esc_attr(strip_tags($hotelDesc)).'" 
-                                                        hotelImages="'.esc_attr(json_encode($hotelSliderImgs)).'"
-                                                        hotelRating="'.esc_attr(json_encode($printable)).'"
+                                                        hotelImages="'.esc_attr(wp_json_encode($hotelSliderImgs)).'"
+                                                        hotelRating="'.esc_attr(wp_json_encode($printable)).'"
                                                         class="absolute hotelPopup"></a>';
                                                 echo '<div class="hotelImg">';
                                                     echo wp_get_attachment_image($featureImg, 'full', false, ['loading' => 'eager']);
@@ -166,10 +166,10 @@ echo '<section class="itinerary-accordion full-section '.esc_attr($section_text_
                                                     echo '<a href="javascript:;" 
                                                         hotelPermalink = '.get_the_permalink($posts).'
                                                         hotelTitle="'.get_the_title($posts).'"
-                                                        hotelHighlights="'.esc_attr(json_encode($highlightTexts)).'"
+                                                        hotelHighlights="'.esc_attr(wp_json_encode($highlightTexts)).'"
                                                         hotelDescriptions="'.esc_attr(strip_tags($hotelDesc)).'" 
-                                                        hotelImages="'.esc_attr(json_encode($hotelSliderImgs)).'"
-                                                        hotelRating="'.esc_attr(json_encode($printable)).'"
+                                                        hotelImages="'.esc_attr(wp_json_encode($hotelSliderImgs)).'"
+                                                        hotelRating="'.esc_attr(wp_json_encode($printable)).'"
                                                         class="btn hotelPopup">Read More</a>';
                                                 echo '</div>'; #hotelContent
                                             echo '</div>'; #hotelBox
