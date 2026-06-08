@@ -54,8 +54,7 @@ function _currency_format_two($value, $symbol = false, $decimals = 0)
 /* -------------------------------------------------------------
    Get BASE currency from theme options
 ------------------------------------------------------------- */
-function cf_base_currency()
-{
+function cf_base_currency() {
     $base = get_field('base_currency', 'option');
     return $base ? strtoupper($base) : 'GBP';
 }
@@ -241,6 +240,7 @@ function wpb_custom_cron_func()
     if($insertXeCurrencyApi){
         $response = wp_remote_get($url, [
             'headers' => [
+                'timeout' => 10,
                 'Authorization' => 'Basic ' . base64_encode(
                     $insertXeCurrencyApi
                 )
@@ -275,9 +275,9 @@ function cf_curr_currency()
         return trim(strtoupper($_GET['currency']));
     }
     if (!empty($_COOKIE['cc_format'])) {
-        return trim(strtoupper($_COOKIE['cc_format']));
+        return strtoupper(sanitize_text_field($_COOKIE['cc_format']));
     }
-    return trim(strtoupper(cf_geo_location()));
+        return trim(strtoupper(cf_geo_location()));
 }
 
 

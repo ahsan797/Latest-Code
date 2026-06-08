@@ -49,7 +49,7 @@ if (!empty($locations)) {
 
         // OUTPUT for right-side list (unchanged)
         echo '<div class="location-item" data-index="' . $i . '">';
-        if ($img_url) echo '<img src="' . esc_url($img_url) . '" class="loc-thumb">';
+            if ($img_url) echo '<img src="' . esc_url($img_url) . '" class="loc-thumb" alt="UnforgettableCroatia">';
         echo '<div class="locationInfo">';
         echo '<h4>' . esc_html($title) . '</h4>';
         echo '<p>' . esc_html($address) . '</p>';
