@@ -1,0 +1,25 @@
+<?php
+
+// Global Section
+$section = $args['section'] ?: [];
+$uniqueSectionClass = $args['uniqueSectionClass'] ?: '';
+$section_id = $args['section_id'] ?: '';
+
+$section_text_color = $section['section_text_color'] ?? '';
+$bg = backgroundFromSection($section); //Fixed For All Section
+$section_id = preg_replace('/\s+/', '', $section['section_id']) ?? '';
+
+
+echo '<section class="dynamic-title full-section  '.esc_attr($section_text_color).' '.esc_attr($uniqueSectionClass).' global" 
+    role="region" aria-label="Dynamic Title - '.esc_attr($uniqueSectionClass).'"
+    '.($bg ? $bg : '').'
+    '.($section_id ? 'id="'.esc_attr($section_id).'"' : '').' >';
+    
+    echo '<div class="container" >';
+        echo HeadingFromSection($section);
+        
+    echo '</div>'; #container
+
+echo '</section>'; #dynamic-title
+
+?>

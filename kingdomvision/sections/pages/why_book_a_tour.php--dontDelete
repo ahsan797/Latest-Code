@@ -1,0 +1,91 @@
+<?php
+
+	// Unique Section Class
+	$uniqueSectionClass = 'section-'.$currenSectionIndex;
+
+	$section_text_color = $section['section_text_color'] ?: '';
+	$bg = backgroundFromSection($section); //Fixed For All Section
+	$section_id = preg_replace('/\s+/', '', $section['section_id']) ?: '';
+
+	$icon_one = $section['icon_one'] ?: '';
+	$title_one = $section['title_one'] ?: '';
+	$content_one = $section['content_one'] ?: '';
+
+	$icon_two = $section['icon_two'] ?: '';
+	$title_two = $section['title_two'] ?: '';
+	$content_two = $section['content_two'] ?: '';
+
+	$icon_three = $section['icon_three'] ?: '';
+	$title_three = $section['title_three'] ?: '';
+	$content_three = $section['content_three'] ?: '';
+
+	$icon_four = $section['icon_four'] ?: '';
+	$title_four = $section['title_four'] ?: '';
+	$content_four = $section['content_four'] ?: '';
+
+	echo '<section class="why-book-tour full-section '.esc_attr($section_text_color).' '.esc_attr($uniqueSectionClass).'" 
+    role="region" aria-label="Why Book A Tour - '.esc_attr($uniqueSectionClass).'"
+    '.($bg ? $bg : '').'
+    '.($section_id ? 'id="'.esc_attr($section_id).'"' : '').'>';
+    	echo '<div class="container ">';
+    		echo HeadingFromSection($section);
+
+    		echo '<div class="flexWrap">';
+    			echo '<div class="col colOne">';
+    				if($icon_one){
+                        echo '<div class="colImg">';
+                        	echo '<img src="'.$icon_one['url'].'" alt="'.$icon_one['alt'].'">';
+                        echo '</div>'; #colImg
+                    }
+                    if($title_one || $content_one){
+                    	echo '<div class="colDetails">';
+                    		echo '<h3>'.$title_one.'</h3>';
+                    		echo $content_one;
+                    	echo '</div>'; #colDetails
+                    }
+    			echo '</div>'; #col
+    			echo '<div class="col colTwo">';
+    				if($icon_two){
+                        echo '<div class="colImg">';
+                        	echo '<img src="'.$icon_two['url'].'" alt="'.$icon_two['alt'].'">';
+                        echo '</div>'; #colImg
+                    }
+                    if($title_two || $content_two){
+                    	echo '<div class="colDetails">';
+                    		echo '<h3>'.$title_two.'</h3>';
+                    		echo $content_two;
+                    	echo '</div>'; #colDetails
+                    }
+    			echo '</div>'; #col
+    			echo '<div class="col colThree">';
+    				if($icon_three){
+                        echo '<div class="colImg">';
+                        	echo '<img src="'.$icon_three['url'].'" alt="'.$icon_three['alt'].'">';
+                        echo '</div>'; #colImg
+                    }
+                    if($title_three || $content_three){
+                    	echo '<div class="colDetails">';
+                    		echo '<h3>'.$title_three.'</h3>';
+                    		echo $content_three;
+                    	echo '</div>'; #colDetails
+                    }
+    			echo '</div>'; #col
+    			echo '<div class="col colFour">';
+    				if($icon_four){
+                        echo '<div class="colImg">';
+                        	echo '<img src="'.$icon_four['url'].'" alt="'.$icon_four['alt'].'">';
+                        echo '</div>'; #colImg
+                    }
+                    if($title_four || $content_four){
+                    	echo '<div class="colDetails">';
+                    		echo '<h3>'.$title_four.'</h3>';
+                    		echo $content_four;
+                    	echo '</div>'; #colDetails
+                    }
+    			echo '</div>'; #col
+    		echo '</div>';
+
+		echo '</div>'; #container
+	echo '</section>'; #why-book-tour
+
+?>

@@ -1,0 +1,43 @@
+<?php
+// Unique Section Class
+$uniqueSectionClass = 'section-'.$currenSectionIndex;
+
+$section_text_color = $section['section_text_color'] ?: '';
+$bg = backgroundFromSection($section); //Fixed For All Section
+$section_id = $section['section_id'] ?: '';
+
+$publication_logos = $section['publication_logos'] ?: '';
+
+
+echo '<section class="media-coverage-module full-section '.esc_attr($section_text_color).' '.esc_attr($uniqueSectionClass).'" role="Media Coverage Module" aria-label="Media Coverage Module"
+    '.($bg ? $bg : '').'
+    '.($section_id ? 'id="'.esc_attr($section_id).'"' : '').'>';
+    
+    echo '<div class="container">';
+        echo HeadingFromSection($section);
+        if($publication_logos){
+            $counts = count($publication_logos);
+            echo '<div class="publicationRepeater '.($counts > 4 ? 'activeSlider' : '').'" role="list" aria-label="List of media publications">';
+                foreach($publication_logos as $key => $rep){
+                    $publication_logo = $rep['publication_logo'];
+                    $publication_name = $rep['publication_name'];
+                    $supporting_text = $rep['supporting_text'];
+                    echo '<div class="publicationItems" role="listitem" aria-label="Publication item">';
+                        if($publication_logo){
+                            echo wp_get_attachment_image($publication_logo, 'full', false, ['loading' => 'eager']);                            
+                        }
+                        if($publication_name){
+                            echo '<p class="name">'.esc_html($publication_name).'</p>';                            
+                        }
+                        if($supporting_text){
+                            echo '<p class="desc">'.esc_html($supporting_text).'</p>';                           
+                        }
+                    echo '</div>'; #publicationItems
+                }
+            echo '</div>'; #publicationRepeater
+        }
+    echo '</div>'; #container
+
+echo '</section>'; #media-coverage-module
+
+?>

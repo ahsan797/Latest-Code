@@ -1,0 +1,175 @@
+<?php
+
+// Price Function Two
+function _currency_format_two($value, $symbol = false, $decimals = 0) {
+    if( $symbol )
+        return '$' . number_format_i18n($value, $decimals);
+    else
+        return number_format_i18n($value, $decimals);
+}
+
+// Price Function
+function _currency_format($value, $symbol = false, $decimals = 0) {
+    $curr_currency = cf_curr_currency();
+    $rate_conversion = get_option('cur_rate_conversion');
+    $rate_value = 1;
+    $sign = '&pound;';
+    $custom_rate = get_custom_rates(strtolower($curr_currency)); /** Custom Rates */
+
+    if ($curr_currency == 'AUD') {
+        $sign = 'AU$';
+        $rt = $custom_rate ? $custom_rate : ($rate_conversion['aud'] ?? 1); /** Custom Rates */
+        $rate_value = round((float) $rt, 4); /** Custom Rates */
+    } else if ($curr_currency == 'USD') {
+        $sign = '$';
+        $rt = $custom_rate ? $custom_rate : ($rate_conversion['usd'] ?? 1);  /** Custom Rates */
+        $rate_value = round((float) $rt, 4); /** Custom Rates */
+    } else if ($curr_currency == 'EUR') {
+        $sign = '€';
+        $rt = $custom_rate ? $custom_rate : ($rate_conversion['eur'] ?? 1); /** Custom Rates */
+        $rate_value = round((float) $rt, 4); /** Custom Rates */
+    }
+
+    // Ensure both values are numeric
+    $value = (float) $value;
+    $rate_value = (float) $rate_value;
+
+    $value = $rate_value * $value;
+    if ($symbol)
+        return $sign . number_format_i18n($value, $decimals);
+    else
+        return number_format_i18n($value, $decimals);
+}
+
+
+
+/** Custom Rates */
+/** Custom Rate Calculation Fucntion */
+function get_custom_rates($curr)
+{
+    $price = false;
+    $custom_rates = get_field('custom_pricing', 'option');
+    if (isset($custom_rates[$curr]) && $custom_rates[$curr]['available'] == 1 && !empty($custom_rates[$curr]['price'])) {
+        $price = $custom_rates[$curr]['price'];
+    }
+    return $price;
+}
+
+
+// Adjustment percentage Price Function
+function cur_adjust_format($value, $table_id, $symbol = false, $decimals = 0) {
+    $curr_currency = cf_curr_currency();
+    $curr_key = strtolower($curr_currency);
+    $custom_rate = get_custom_rates($curr_key); /** Custom Rates */
+    $rate_conversion = get_option('cur_rate_conversion');
+    $adjustment = get_field('adjustment_%', $table_id);
+    $rate_value = 1;
+    $sign = '&pound;';
+
+    if( $curr_currency == 'AUD' ) {
+        $sign = 'AU$';
+        $rt = $custom_rate ? $custom_rate : $rate_conversion['aud']; /** Custom Rates */
+        $rate_value = $rt; /** Custom Rates */
+        // $rate_value = $rate_conversion['aud'];
+    } else if( $curr_currency == 'USD' ) {
+        $sign = '$';
+        $rt = $custom_rate ? $custom_rate : $rate_conversion['usd'];  /** Custom Rates */
+        $rate_value = $rt; /** Custom Rates */
+        // $rate_value = $rate_conversion['usd'];
+        
+    } else if( $curr_currency == 'EUR' ) {
+        $sign = '€';
+        $rt = $custom_rate ? $custom_rate : $rate_conversion['eur']; /** Custom Rates */
+        $rate_value = round($rt, 4); /** Custom Rates */
+        // $rate_value = round($rate_conversion['eur'], 4);
+    }
+    
+    if( array_key_exists($curr_key, $adjustment) && is_numeric($adjustment[$curr_key]) && $adjustment[$curr_key] > 0 ) {
+        $adj_percentage = ( $rate_value / 100 ) * (int) $adjustment[$curr_key];
+        $rate_value = $rate_value + $adj_percentage;
+    }
+
+    $value = $rate_value * $value;
+    if( $symbol )
+        return $sign . number_format_i18n($value, $decimals);
+    else
+        return number_format_i18n($value, $decimals);
+}
+
+// Price Function
+function _currency_sign() {
+    $curr_currency = cf_curr_currency();
+    $sign = '&pound;';
+
+    if( $curr_currency == 'AUD' )
+        $sign = 'AU$';
+    
+    else if( $curr_currency == 'USD' )
+        $sign = '$';
+
+    else if( $curr_currency == 'EUR' )
+        $sign = '€';
+
+    return $sign;
+}
+
+// Price Shortcode
+add_shortcode( 'price', 'price_shortcode' );
+function price_shortcode( $atts ) {
+    $atts = shortcode_atts(
+        array(
+            'value' => ''
+        ),
+        $atts
+    );
+    ob_start();
+    
+    echo '<span class="price">'. _currency_format($atts['value'], true) .'</span>';
+        
+    return ob_get_clean();
+}
+
+add_action( 'init', 'cf_init' );
+function cf_init() {
+    $cookie_name = "cc_format";
+    $cookie_value = cf_curr_currency();
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+    if( ! wp_next_scheduled( 'wpb_custom_cron' ) ) {
+        wp_schedule_event( time(), 'daily', 'wpb_custom_cron' );
+    }
+}
+
+add_action( 'wpb_custom_cron', 'wpb_custom_cron_func' );
+// wpb_custom_cron_func();
+function wpb_custom_cron_func() {
+    // https://xecdapi.xe.com/v1/convert_from.json/?from=EUR&to=AUD,GBP,USD&amount=1
+    $response = wp_remote_get( 'https://xecdapi.xe.com/v1/convert_from.json/?from=GBP&to=AUD,USD,EUR&amount=1', array(
+        'headers' => array(
+            'Authorization' => 'Basic ' . base64_encode('unforgettabletravelcompanylimited447942219:36in03s5jhlgpv3h6a67krtp6d')
+        )
+    ));
+    $responseBody = wp_remote_retrieve_body( $response );
+    if( $responseBody ) {
+        $responseBody = json_decode($responseBody);
+        foreach (@$responseBody->to as $rate_api) {
+            $rate_value[ strtolower($rate_api->quotecurrency) ] = round($rate_api->mid, 4);
+        }
+        if( !empty($rate_value['aud']) || !empty($rate_value['gbp']) || !empty($rate_value['usd']) || !empty($rate_value['eur']) )
+            update_option('cur_rate_conversion', $rate_value);
+    }
+}
+
+function cf_curr_currency() {
+    if( isset($_GET['currency']) && !empty($_GET['currency']) ) {
+        return trim(@$_GET['currency']);
+    }
+    
+    else if( isset($_COOKIE['cc_format']) && !empty($_COOKIE['cc_format']) ) {
+        return trim(@$_COOKIE['cc_format']);
+    }
+    
+    else {
+        return trim(cf_geo_location());
+    }
+
+}

@@ -1,0 +1,71 @@
+<?php
+
+// Global Section
+$section = $args['section'] ?: [];
+// Unique Section Class
+$uniqueSectionClass = $args['uniqueSectionClass'] ?: '';
+$theme = $args['theme'] ?: '';
+
+$section_text_color = $section['section_text_color'] ?: '';
+$bg = backgroundFromSection($section); //Fixed For All Section
+$section_id = preg_replace('/\s+/', '', $section['section_id']) ?: '';
+
+$show_filter = $section['show_filter'] ?: '';
+$blogs_layout = $section['blogs_layout'] ?: '';
+$show_blogs = $section['show_blogs'] ?: '';
+
+echo '<section class="blog-filter ajaxFilter full-section global '.esc_attr($theme ? $theme : $section_text_color).' '.esc_attr($uniqueSectionClass).'" 
+    aria-label="Blogs - '.esc_attr($uniqueSectionClass).'"
+    '.($bg ? $bg : '').'
+    '.($section_id ? 'id="'.esc_attr($section_id).'"' : '').' >';
+    
+    echo '<div class="container">';
+        echo HeadingFromSection($section);
+
+        $region = get_terms([
+            'taxonomy'   => 'category',
+            'hide_empty' => false,
+        ]);
+
+        $interests = get_terms([
+            'taxonomy'   => 'post_tag',
+            'hide_empty' => false,
+        ]);
+		
+		if($show_filter == true){
+			echo '<div class="postFilter">';
+				echo '<div class="regionFilter toggleFilter">';
+					if (!empty($region) && !is_wp_error($region)) {
+						echo '<span class="selected">Region</span>';
+						echo '<ul style="display: none;">';
+							foreach ($region as $reg) {
+								echo '<li data-region="' . esc_attr($reg->slug) . '">' . esc_html($reg->name) . '</li>';
+							}
+						echo '</ul>';
+					}
+				echo '</div>'; #regionFilter
+				echo '<div class="interestFilter toggleFilter">';
+					if (!empty($interests) && !is_wp_error($interests)) {
+						echo '<span class="selected">Interest</span>';
+						echo '<ul style="display: none;">';
+							foreach ($interests as $int) {
+								echo '<li data-interest="' . esc_attr($int->slug) . '">' . esc_html($int->name) . '</li>';
+							}
+						echo '</ul>';
+					}
+				echo '</div>'; #interestFilter
+				echo '<div class="clearFilters" style="display:none;"><p>× CLEAR ALL FILTERS</p></div>';
+			echo '</div>';#postFilter
+		}
+        echo '<div class="postFilterResult '.esc_attr($blogs_layout).'" data-page="'.esc_attr($show_blogs).'">';
+        echo '</div>'; #postFilterResult
+
+		// echo '<div class="postFilterPagination"></div>';
+		echo '<div class="loadWrapper">';
+                echo '<a href="javascript:;" id="loadMoreBtn" class="btn" style="display:none">Load More</a>';
+		echo '</div>'; #loadWrapper
+
+    echo '</div>'; #container
+echo '</section>'; #blog-filter
+
+?>

@@ -1,0 +1,23 @@
+<?php
+
+// Unique Section Class
+$uniqueSectionClass = 'section-'.$currenSectionIndex;
+
+$padding_top = $section['padding_top'] ?: '';
+$padding_bottom = $section['padding_bottom'] ?: '';
+$width = $section['width'] ?: '';
+$color = $section['color'] ?: '';
+
+$style = '';
+if($padding_top || $padding_bottom || $color){
+    $style = 'style="
+    '.($padding_top ? 'padding-top: '.esc_attr($padding_top).'px;' : '').'
+    '.($padding_bottom ? 'padding-bottom: '.esc_attr($padding_bottom).'px;' : '').'"';
+}
+
+echo '<section class="separatorBlock full-section '.esc_attr($uniqueSectionClass).'" '.($style ? $style : '').'>';
+    echo '<div class="container" 
+    '.($width ? 'style="'.($width ? 'width: '.esc_attr($width).'%;' : '').' height: 1px; background: '.esc_attr($color).';"' : '').'>';
+echo '</section>';
+
+?>

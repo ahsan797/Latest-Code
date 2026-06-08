@@ -1,0 +1,81 @@
+<?php
+
+// Unique Section Class
+$uniqueSectionClass = 'section-'.$currenSectionIndex;
+
+$section_text_color = $section['section_text_color'] ?: '';
+$bg = backgroundFromSection($section); //Fixed For All Section
+$section_id = $section['section_id'] ?: '';
+
+$content = $section['content'] ?: '';
+$layout_type = $section['layout_type'] ?: '';
+$carousel_type = $section['carousel_type'] ?: '';
+$arrow_direction = $section['arrow_direction'] ?: '';
+$static_blogs = $section['static_blogs'] ?: '';
+$select_dynamic_blogs = $section['select_dynamic_blogs'] ?: '';
+
+$button = $section['button'] ?: '';
+
+
+
+echo '<section class="trending-blogs full-section '.esc_attr($section_text_color).' '.esc_attr($uniqueSectionClass).'" 
+    role="Trending Blogs - '.esc_attr($uniqueSectionClass).'" aria-label="Trending Blogs - '.esc_attr($uniqueSectionClass).'"
+    '.($bg ? $bg : '').'
+    '.($section_id ? 'id="'.esc_attr($section_id).'"' : '').'>';
+    
+    echo '<div class="container ">';
+        echo HeadingFromSection($section);
+        if($content){
+            echo WysiwygReadMoreLess($content ,  'contWrap');
+        }
+    echo '</div>'; #container
+    
+    if($static_blogs || $select_dynamic_blogs ){
+        echo '<div class="container '.esc_attr($carousel_type).' ">';
+            if($layout_type == 'dynamic'){
+                if($select_dynamic_blogs){
+                    if($arrow_direction == 'up'){
+                        echo '<div class="aboveTheSlider">';
+                            echo slickSliderArrows($uniqueSectionClass);
+                        echo '</div>';
+                    }
+                    echo '<div class="blogWrapper activeSlider '.esc_attr($layout_type).' '.esc_attr($carousel_type).'">';
+                        foreach($select_dynamic_blogs as $post){
+                            setup_postdata($post);
+                            echo blogStructureFromRepeator($post);
+                        }
+                        wp_reset_postdata();
+                    echo '</div>'; #blogWrapper
+                    if($arrow_direction == 'down'){
+                        echo slickSliderArrows($uniqueSectionClass);
+                    }
+                }
+            }else{
+                if($static_blogs){
+                    if($arrow_direction == 'up'){
+                        echo '<div class="aboveTheSlider">';
+                            echo slickSliderArrows($uniqueSectionClass);
+                        echo '</div>';
+                    }
+                    echo '<div class="blogWrapper activeSlider '.esc_attr($layout_type).' '.esc_attr($carousel_type).'">';
+                        foreach($static_blogs as $key => $sb){
+                            echo  blogStructureFromRepeator($sb);
+                        }
+                    echo '</div>'; #blogWrapper
+                    if($arrow_direction == 'down'){
+                        echo slickSliderArrows($uniqueSectionClass);
+                    }
+                }
+            }
+        echo '</div>'; #container
+    }
+
+    if($button){
+        echo '<div class="container">';
+            echo dynamicBtnFromSection($section);
+        echo '</div>'; #container
+    }
+
+echo '</section>'; #trending-blogs
+
+?>

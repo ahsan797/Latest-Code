@@ -1,0 +1,24 @@
+<?php
+
+	// Unique Section Class
+	$uniqueSectionClass = 'section-'.$currenSectionIndex;
+
+	$section_text_color = $section['section_text_color'] ?: '';
+	$bg = backgroundFromSection($section); //Fixed For All Section
+	$section_id = preg_replace('/\s+/', '', $section['section_id']) ?: '';
+
+	$layout_type = $section['layout_type'] ?: '';
+	$static_posts = $section['static_posts'] ?: '';
+	$select_posts = $section['select_posts'] ?: '';
+	$cta_button = $section['cta_button'] ?: '';
+
+	echo '<section class="croatia-inspiration full-section '.esc_attr($section_text_color).' '.esc_attr($uniqueSectionClass).'" 
+	    role="Inspiration-'.esc_attr($uniqueSectionClass).'" aria-label="Croatia Inspiration - '.esc_attr($uniqueSectionClass).'"
+	    '.($bg ? $bg : '').'
+	    '.($section_id ? 'id="'.esc_attr($section_id).'"' : '').' >';
+	    echo '<div class="container">';
+	    	echo HeadingFromSection($section);
+	    echo '</div>'; #headingData
+    echo '</section>'; #croatia-inspiration
+
+?>

@@ -1,0 +1,33 @@
+<?php
+
+// Global Section
+$section = $args['section'] ?: [];
+// Unique Section Class
+$uniqueSectionClass = $args['uniqueSectionClass'] ?: '';
+$theme = $args['theme'] ?? '';
+
+$section_text_color = $section['section_text_color'] ?: '';
+$bg = backgroundFromSection($section); //Fixed For All Section
+$section_id = preg_replace('/\s+/', '', $section['section_id'] ?: '');
+
+$content = $section['content'] ?: '';
+$button = $section['button'] ?: '';
+
+echo '<section class="heading-content-module full-section '.esc_attr($theme ? $theme : $section_text_color).' '.esc_attr($uniqueSectionClass).' global" 
+    role="region" aria-label="Heading Content Module - '.esc_attr($uniqueSectionClass).'"
+    '.($bg ? $bg : '').'
+    '.($section_id ? 'id="'.esc_attr($section_id).'"' : '').' >';
+    
+    echo '<div class="container">';
+       echo HeadingFromSection($section);
+        if($content){
+            echo WysiwygReadMoreLess($content ,  'content');
+        }
+        if($button){
+            echo dynamicBtnFromSection($section);
+        }
+    echo '</div>'; #container
+
+echo '</section>'; #heading-content-module
+
+?>
