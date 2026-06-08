@@ -8815,7 +8815,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "33",
+                                "width": "25",
                                 "class": "",
                                 "id": ""
                             },
@@ -8827,6 +8827,35 @@
                             "ui": 1
                         },
                         {
+                            "key": "field_6a266bcdf72ea",
+                            "label": "Trip Box Option",
+                            "name": "trip_box_option",
+                            "aria-label": "",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "start": "Show at Start",
+                                "end": "Show at End"
+                            },
+                            "default_value": "start",
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0
+                        },
+                        {
                             "key": "field_69145e2c81c08",
                             "label": "Show Trip Box",
                             "name": "show_trip_box",
@@ -8836,7 +8865,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "33",
+                                "width": "25",
                                 "class": "",
                                 "id": ""
                             },
@@ -8853,11 +8882,11 @@
                             "name": "active_carousel",
                             "aria-label": "",
                             "type": "true_false",
-                            "instructions": "This option will be available when the Recommend Box and Show Trip Box are turned off.",
+                            "instructions": "This option will be available when the Recommend Box are turned off.",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "33",
+                                "width": "25",
                                 "class": "",
                                 "id": ""
                             },
@@ -25333,5 +25362,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1780468345
+    "modified": 1780905958
 }

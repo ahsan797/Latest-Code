@@ -21,28 +21,32 @@ echo '<section class="blogs full-section '.esc_attr($section_text_color).' '.esc
         echo HeadingFromSection($section);
 
         if($layout_type == 'dynamic'){
-            $dynamicPosts = count($select_dynamic_blogs);
-            echo '<div class="blogWrapper '.esc_attr($layout_type).'">';
-                foreach($select_dynamic_blogs as $post){
-                    setup_postdata($post);
-                    // echo blogStructureFromRepeator($post, $button_text);
-                    echo blogStructureFromRepeator( rep: $post, button_text: $button_text );
+            if(is_array($select_dynamic_blogs)){
+                $dynamicPosts = is_array($select_dynamic_blogs) ? count($select_dynamic_blogs) : 0;
+                echo '<div class="blogWrapper '.esc_attr($layout_type).'">';
+                    foreach($select_dynamic_blogs as $post){
+                        setup_postdata($post);
+                        // echo blogStructureFromRepeator($post, $button_text);
+                        echo blogStructureFromRepeator( rep: $post, button_text: $button_text );
+                    }
+                    wp_reset_postdata();
+                echo '</div>';
+                if($dynamicPosts > 1){
+                    echo slickSliderArrows($uniqueSectionClass);
                 }
-                wp_reset_postdata();
-            echo '</div>';
-            if($dynamicPosts > 1){
-                echo slickSliderArrows($uniqueSectionClass);
             }
         }else{
-            $staticPosts = count($static_data);
-            echo '<div class="blogWrapper '.esc_attr($layout_type).'">';
-                foreach($static_data as $key => $sd){
-                    // echo  blogStructureFromRepeator($sd);
-                    echo blogStructureFromRepeator( rep: $sd);
+            if(is_array($static_data)){
+                $staticPosts = is_array($static_data) ? count($static_data) : 0;
+                echo '<div class="blogWrapper '.esc_attr($layout_type).'">';
+                    foreach($static_data as $key => $sd){
+                        // echo  blogStructureFromRepeator($sd);
+                        echo blogStructureFromRepeator( rep: $sd);
+                    }
+                echo '</div>';
+                if($staticPosts > 1){
+                    echo slickSliderArrows($uniqueSectionClass);
                 }
-            echo '</div>';
-            if($staticPosts > 1){
-                echo slickSliderArrows($uniqueSectionClass);
             }
         }
 

@@ -31,8 +31,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	$au_number = get_field('au_number' , 'option');
 	$gb_number = get_field('gb_number' , 'option');
 	$us_number = get_field('us_number' , 'option');
-	
-	$currency = cf_curr_currency();
 
 	// Header Default/Transparent With Banner Relation
 	$banner_slider = get_field('banner_slider');
@@ -82,32 +80,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 				echo '<div class="currency-switcher">';
 					echo '<div class="current-status cc-current">';
-						switch ($currency) {
-							case 'GBP':
-								$sign = '&pound;';
-								break;
-							case 'EUR':
-								$sign = '&euro;';
-								break;
-							case 'AUD':
-								$sign = '$';
-								break;
-							default:
-								$sign = '$';
-						}
-						echo $sign . ' ' . esc_html($currency);
+						echo '$ USD';
 					echo '</div>';
 
 					echo '<ul class="auto_switcher right ">';
 						$currencies = [
-							'USD' => 'usa-flag.jpg',
-							'AUD' => 'aus-flag.jpg',
-							'GBP' => 'gbp-flag.jpg',
-							'EUR' => 'eur-flag.webp',
+							'USD' => 'usa-flag.png',
+							'AUD' => 'aus-flag.png',
+							'GBP' => 'gbp-flag.png',
+							'EUR' => 'eur-flag.png',
 						];
 						foreach ($currencies as $code => $flag) {
-							$is_current = (cf_curr_currency() === $code) ? 'current' : '';
-							$flag_url = esc_url(get_template_directory_uri() . '/images/' . $flag);
+							$flag_url = esc_url(get_template_directory_uri() . '/images/flags/' . $flag);
 							switch ($code) {
 								case 'GBP':
 									$sign = '&pound;';
@@ -123,7 +107,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 							}
 
 							printf(
-								'<li><a data-value="%s" class="auto_switcher_link %s" href="javascript:;"> %s %s <img src="%s" alt="%s"></a></li>',
+								'<li><a data-value="%s" class="auto_switcher_link %s" href="javascript:;"> <span>%s %s</span> <span class="img"><img src="%s" alt="%s"></span></a></li>',
 								esc_attr($code),
 								esc_attr($is_current),
 								$sign,
@@ -140,7 +124,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				$logo = get_field('logo_image', 'option');
 				echo '<a href="' . home_url( '/' ) . '">';
 					if($logo) {
-						echo '<img src="' . $logo . '" width="265" height="50" alt="Unforgettable Croatia" fetchpriority="high"/>';
+						echo '<img src="' . esc_url($logo) . '" width="265" height="50" alt="Unforgettable Croatia" fetchpriority="high"/>';
 					} else {
 						echo '<img src="' . get_stylesheet_directory_uri() . '/images/logo.png" width="265" height="50" alt="Unforgettable Croatia" />';
 					}
@@ -154,28 +138,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				}
 				if($au_number || $gb_number || $us_number){
 					echo '<div class="callWrap">';
-						// if ($currency === 'USD' && !empty($us_number)) {
-						// 	$us_number = preg_replace('/\s+/', '', $us_number);
-						// 	printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));
-						// } elseif ($currency === 'AUD' && !empty($au_number)) {
-						// 	$au_number = preg_replace('/\s+/', '', $au_number);
-						// 	printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($au_number), esc_html($au_number));
-						// } elseif ($currency === 'GBP' && !empty($gb_number)) {
-						// 	$gb_number = preg_replace('/\s+/', '', $gb_number);
-						// 	printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($gb_number), esc_html($gb_number));
-						// } else {
-						// 	$us_number = preg_replace('/\s+/', '', $us_number);
-						// 	printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));            
-						// }
 
 						echo '<a class="cc-phone phone call_btn" rel="nofollow" href="tel:'.esc_attr($us_number).'">'.esc_html($us_number).'</a>';
 
 						//hidden data
                         echo '<ul style="display:none;">
-                            <li data-curr="USD" data-phone="' . $us_number . '" data-link="' . $us_number . '"></li>
-                            <li data-curr="AUD" data-phone="' . $au_number . '" data-link="' . $au_number . '"></li>
-                            <li data-curr="GBP" data-phone="' . $gb_number . '" data-link="' . $gb_number . '"></li>
-                            <li data-curr="EUR" data-phone="' . $us_number . '" data-link="' . $us_number . '"></li>
+                            <li data-curr="USD" data-phone="' . esc_attr($us_number) . '" data-link="' . $us_number . '"></li>
+                            <li data-curr="AUD" data-phone="' . esc_attr($au_number) . '" data-link="' . $au_number . '"></li>
+                            <li data-curr="GBP" data-phone="' . esc_attr($gb_number) . '" data-link="' . $gb_number . '"></li>
+                            <li data-curr="EUR" data-phone="' . esc_attr($us_number) . '" data-link="' . $us_number . '"></li>
                         </ul>';
 						
 					echo '</div>'; #callWrap

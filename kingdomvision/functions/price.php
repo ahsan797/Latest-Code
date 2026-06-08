@@ -237,13 +237,16 @@ function wpb_custom_cron_func()
     // dynamic API URL
     $url = "https://xecdapi.xe.com/v1/convert_from.json/?from={$base}&to={$to}&amount=1";
 
-    $response = wp_remote_get($url, [
-        'headers' => [
-            'Authorization' => 'Basic ' . base64_encode(
-                'unforgettabletravelcompanylimited447942219:36in03s5jhlgpv3h6a67krtp6d'
-            )
-        ]
-    ]);
+    $insertXeCurrencyApi = get_field('insert_xe_currency_api' , 'option');
+    if($insertXeCurrencyApi){
+        $response = wp_remote_get($url, [
+            'headers' => [
+                'Authorization' => 'Basic ' . base64_encode(
+                    $insertXeCurrencyApi
+                )
+            ]
+        ]);
+    }
 
     $body = wp_remote_retrieve_body($response);
     if (!$body) return;

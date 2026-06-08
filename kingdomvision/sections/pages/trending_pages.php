@@ -69,7 +69,7 @@ echo '<section class="trending-blogs full-section '.esc_attr($section_text_color
     }
 
 
-    if( count($pages) > 1){
+    if( is_array($pages) && count($pages) > 1){
         echo '<div class="container '.( count($pages) > 3 ? 'activeSlider' : '' ).'">';
             echo slickSliderArrows($uniqueSectionClass);
         echo '</div>'; #container

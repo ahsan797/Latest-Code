@@ -12,6 +12,7 @@ $section_id = preg_replace('/\s+/', '', $section['section_id'] ?: '');
 $sub_heading = $section['sub_heading'] ?: '';
 $description = $section['description'] ?: '';
 $show_recommend_box = $section['show_recommend_box'] ?: '';
+$trip_box_option = $section['trip_box_option'] ?: '';
 $show_trip_box = $section['show_trip_box'] ?: '';
 $active_carousel = $section['active_carousel'] ?: '';
 $select_dynamic_post = $section['select_dynamic_post'] ?: [];
@@ -98,10 +99,10 @@ echo '<section class="itineraries-module full-section '.esc_attr($theme ? $theme
                 
 
                 echo '<div class="itinerariesListing 
-                '.($active_carousel == true && $show_trip_box == false && $show_recommend_box == false && count($select_dynamic_post) > 3 ? 'activeSlider' : '').' 
+                '.($active_carousel == true || ($show_trip_box == true && $show_recommend_box == false && count($select_dynamic_post) > 3) ? 'activeSlider' : '').' 
                 '.esc_attr($box_text_color).' " 
                  >';
-                    if($show_trip_box == true){
+                    if($show_trip_box == true && $trip_box_option == 'start'){
                         echo '<div class="itinerariesItem tripBox" '.($box_color ? 'style="background: '.$box_color.';"' : '').' >';
                             echo customizedTripFromOption();
                         echo '</div>'; #itinerariesItem\
@@ -116,6 +117,11 @@ echo '<section class="itineraries-module full-section '.esc_attr($theme ? $theme
                             echo '</div>'; #itinerariesItem
                         }
                     // echo '</div>';
+                    if($show_trip_box == true && $trip_box_option == 'end'){
+                        echo '<div class="itinerariesItem tripBox" '.($box_color ? 'style="background: '.$box_color.';"' : '').' >';
+                            echo customizedTripFromOption();
+                        echo '</div>'; #itinerariesItem\
+                    }
                 echo '</div>'; #itinerariesListing
                 if(count($select_dynamic_post) > 1){
                     echo '<div class="arrows '.( $active_carousel == true  ? 'activeSlider' : '').'">';

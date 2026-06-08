@@ -2229,7 +2229,7 @@
         },
         {
             "key": "field_69664e74285e9",
-            "label": "Google API Configuration",
+            "label": "API Configuration",
             "name": "",
             "aria-label": "",
             "type": "tab",
@@ -2246,9 +2246,30 @@
             "selected": 0
         },
         {
+            "key": "field_6a267ae0473a7",
+            "label": "Insert Google API",
+            "name": "insert_google_api",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
             "key": "field_69664e81285ea",
-            "label": "Choose API",
-            "name": "choose_api",
+            "label": "Choose Google API",
+            "name": "choose_google_api",
             "aria-label": "",
             "type": "post_object",
             "instructions": "Select the Google API you want to configure specifically for pages.",
@@ -2271,6 +2292,27 @@
             "bidirectional": 0,
             "ui": 1,
             "bidirectional_target": []
+        },
+        {
+            "key": "field_6a267c8c00ef9",
+            "label": "Insert XE Currency API",
+            "name": "insert_xe_currency_api",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
         },
         {
             "key": "field_6967832c51f31",
@@ -3701,5 +3743,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1780305393
+    "modified": 1780907167
 }

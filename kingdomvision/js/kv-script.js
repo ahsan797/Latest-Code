@@ -22,6 +22,16 @@ jQuery(function ($) {
     let $themeUrl = kingdomVision.themeUrl;
     let $baseCurrency = kingdomVision.baseCurrency;
 
+    // ================================ Footer Menu Active Script ==========================================
+    let currentUrl = window.location.href;
+    $('.col ul li a').each(function() {
+        if (this.href === currentUrl) {
+            $(this).addClass('active'); 
+            $(this).closest('li').addClass('active'); // Optional: adds class to parent <li>
+        }
+    });
+    // ================================ Footer Menu Active Script ==========================================
+
     const videos = kingdomVision.videos;
     const images = kingdomVision.images;
 
@@ -515,11 +525,16 @@ jQuery(function ($) {
         $(".itemMediaWrapper.activeParallax .imageWrapper").each(function () {
             let speed = 0.4; // ← parallax speed
             let offset = $(window).scrollTop() * speed;
-            if(offset <= 80){
-                $(this).css("transform", "unset");
+            if($('body').hasClass('single-hotel_information')){
+                if(offset <= 80){
+                    $(this).css("transform", "inherit");
+                }else{
+                    $(this).css("transform", "translateY(" + offset + "px)");
+                }
             }else{
                 $(this).css("transform", "translateY(" + offset + "px)");
             }
+            
         });
     });
     // ================================ Top Banner Parallax Script  ===================== //
@@ -825,7 +840,7 @@ jQuery(function ($) {
         slidesToScroll: 1,
         speed: 900,
         infinite: true,
-        adaptiveHeight: true,
+        adaptiveHeight: false,
         responsive: [
             {
                 breakpoint: 991,
@@ -1414,7 +1429,7 @@ jQuery(function ($) {
                         speed: 900,
                         infinite: true,
                         centerMode: true,
-                        adaptiveHeight: true,
+                        adaptiveHeight: false,
                         responsive: [
                             {
                                 breakpoint: 767,

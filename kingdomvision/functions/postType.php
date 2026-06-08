@@ -50,7 +50,8 @@ function products_post_type() {
         'products'
     ), $args);
 
-    flush_rewrite_rules();
+    // flush_rewrite_rules();
+    add_action( 'after_switch_theme', 'flush_rewrite_rules' );
 }
 
 
@@ -154,5 +155,6 @@ function experiences_post_type()
         'experiences'
     ), $args);
 
-    flush_rewrite_rules();
+    // flush_rewrite_rules();
+    add_action( 'after_switch_theme', 'flush_rewrite_rules' );
 }

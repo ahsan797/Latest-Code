@@ -1,7 +1,6 @@
 <?php
 
 add_shortcode('cst-breadcrumbs', 'codex_generate_custom_breadcrumbs');
-
 function codex_generate_custom_breadcrumbs($atts): string {
     ob_start();
 
@@ -142,3 +141,95 @@ function location_schema() {
 }
 
 add_action('wp_head', 'location_schema');
+
+// Add scripts to for home shema
+function homeschema() {
+        //Schema Start
+    if (is_front_page()) { ?>
+        <script type="application/ld+json">
+            {
+                "@context": "http://schema.org",
+                "@type": "TravelAgency",
+                "name": "Unforgettable Croatia",
+                "description": "Unforgettable Croatia are the largest luxury tour operator to Croatia. We are connoisseurs of unique travel experiences and truly unforgettable trips to this magnificent country.",
+                "openingHoursSpecification": [
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "closes": "18:00",
+                        "dayOfWeek": "http://schema.org/Monday",
+                        "opens": "09:00"
+                    },
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "closes": "18:00",
+                        "dayOfWeek": "http://schema.org/Tuesday",
+                        "opens": "09:00"
+                    },
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "closes": "18:00",
+                        "dayOfWeek": "http://schema.org/Wednesday",
+                        "opens": "09:00"
+                    },
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "closes": "18:00",
+                        "dayOfWeek": "http://schema.org/Thursday",
+                        "opens": "09:00"
+                    },
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "closes": "18:00",
+                        "dayOfWeek": "http://schema.org/Friday",
+                        "opens": "09:00"
+                    },
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "closes": "16:00",
+                        "dayOfWeek": "http://schema.org/Saturday",
+                        "opens": "09:00"
+                    },
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "closes": "16:00",
+                        "dayOfWeek": "http://schema.org/Sunday",
+                        "opens": "09:00"
+                    }
+                ],
+                "currenciesAccepted": [
+                    "USD"
+                ],
+                "paymentAccepted": [
+                    "Credit Card",
+                    "Debit Card"
+                ],
+                "priceRange": "$$$-$$$$",
+                "image": "https://unforgettablecroatia.com/wp-content/uploads/2018/12/3-comp-2.jpg",
+                "telephone": "+1 844 879 7838",
+                "email": "info@unforgettablecroatia.com",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressCountry": "US",
+                    "addressLocality": "San Francisco ",
+                    "addressRegion": "CA",
+                    "postalCode": "94105",
+                    "streetAddress": "649 Mission Street, 5th Floor"
+                },
+                "logo": "https://unforgettablecroatia.com/wp-content/uploads/2026/03/Croatia-Logo.svg",
+                "url": "https://unforgettablecroatia.com/",
+                "knowsAbout": "Croatia Vacations",
+                "sameAs": [
+                    "https://www.linkedin.com/company/unforgettabletravelcompany",
+                    "https://www.facebook.com/unforgettablecroatia",
+                    "https://www.instagram.com/unforgettabletravelcompany",
+                    "https://www.youtube.com/channel/UC7DW3E_FQOa5S0pErHEJXQw",
+                    "https://www.pinterest.com/unforgettabletravel/"
+                ]
+            }
+        </script>
+        <?php
+    }
+    // Schema END
+}
+
+add_action('wp_head', 'homeschema');

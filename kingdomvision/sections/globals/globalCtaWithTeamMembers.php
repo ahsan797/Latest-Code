@@ -79,6 +79,8 @@ echo '<section class="cta-with-team full-section global  '.esc_attr($section_tex
                         $specificLink = $mem['link'];
                         $member_data = null;
 
+                        // pre($specificLink['url'] );
+
                         // Find matching repeater row by name
                         foreach ($teamMembersOption as $team_member_row) {
                             if ($team_member_row['name'] === $selected_name) {
@@ -112,7 +114,7 @@ echo '<section class="cta-with-team full-section global  '.esc_attr($section_tex
                                         if($designation){
                                             echo '<p>'.esc_html($designation).'</p>';
                                         }
-                                        if (!empty($specificLink)) {
+                                        if (!empty($specificLink['url'])) {
                                             $specificLinkUrl = $specificLink['url'];
                                             $specificLinkTitle = $specificLink['title'];
                                             $specificLinkTarget = $specificLink['target'] ?? '_self';

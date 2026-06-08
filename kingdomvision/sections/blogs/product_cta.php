@@ -14,7 +14,7 @@ $layout_style = $section['layout_style'] ?? '';
 $content = $section['content'] ?? '';
 $button = $section['button'] ?? '';
 
-echo '<section class="product-cta full-section dark '.esc_attr($section_text_color).' '.esc_attr($uniqueSectionClass).'" 
+echo '<section class="product-cta full-section '.esc_attr($section_text_color).' '.esc_attr($uniqueSectionClass).'" 
     role="Product CTA - '.esc_attr($uniqueSectionClass).'" aria-label="Product CTA - '.esc_attr($uniqueSectionClass).'"
     '.($layout_style == 'ofc' ? ($bg ? $bg : '') : ' showDesktop="' . ($show_in_desktop ? 'showOnDesktop' : 'hideOnDesktop') . '" showMobile="' . ($show_in_mobile ? 'showOnMobile' : 'hideOnMobile') . '"').'
     '.($section_id ? 'id="'.esc_attr($section_id).'"' : '').' >';

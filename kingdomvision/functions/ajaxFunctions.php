@@ -4,9 +4,11 @@ add_action('wp_ajax_filter_blog_posts', 'filter_blog_posts');
 add_action('wp_ajax_nopriv_filter_blog_posts', 'filter_blog_posts');
 
 function filter_blog_posts() {
-
-    $region    = isset($_POST['region']) ? (array) $_POST['region'] : [];
-    $interests = isset($_POST['interests']) ? (array) $_POST['interests'] : [];
+    check_ajax_referer( 'filter_blog_nonce', 'nonce' );
+        
+    $region    = isset($_POST['region']) ? array_map('sanitize_text_field', (array) $_POST['region'] ) : [];
+    $interests = isset($_POST['interests']) ? array_map('sanitize_text_field', (array) $_POST['interests'] ) : [];
+    // $interests = isset($_POST['interests']) ? (array) $_POST['interests'] : [];
     $paged     = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
     $posts_per_page = isset($_POST['postPerPage']) ? intval($_POST['postPerPage']) : 12;
 

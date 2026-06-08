@@ -3,7 +3,7 @@
 $au_number = get_field('au_number' , 'option');
 $gb_number = get_field('gb_number' , 'option');
 $us_number = get_field('us_number' , 'option');
-// $currency = cf_curr_currency();
+
 $logo = get_field('logo_image', 'option');
 
 // 
@@ -59,7 +59,7 @@ echo '<div class="mobHeader full-section '.esc_attr($headerResult).'" style="dis
             echo '<div class="logoWrap">';
                 echo '<a href="' . home_url( '/' ) . '">';
                     if($logo) {
-                        echo '<img src="' . $logo . '" width="265" height="50" alt="Unforgettable Croatia" fetchpriority="high"/>';
+                        echo '<img src="' . esc_url($logo) . '" width="265" height="50" alt="Unforgettable Croatia" fetchpriority="high"/>';
                     } else {
                         echo '<img src="' . get_stylesheet_directory_uri() . '/images/logo.png" width="265" height="50" alt="Unforgettable Croatia" />';
                     }
@@ -73,10 +73,10 @@ echo '<div class="mobHeader full-section '.esc_attr($headerResult).'" style="dis
             echo '</a>';
             //hidden data
             echo '<ul style="display:none;">
-                <li data-curr="USD" data-phone="' . $us_number . '" data-link="' . $us_number . '"></li>
-                <li data-curr="AUD" data-phone="' . $au_number . '" data-link="' . $au_number . '"></li>
-                <li data-curr="GBP" data-phone="' . $gb_number . '" data-link="' . $gb_number . '"></li>
-                <li data-curr="EUR" data-phone="' . $us_number . '" data-link="' . $us_number . '"></li>
+                <li data-curr="USD" data-phone="' . esc_attr($us_number) . '" data-link="' . $us_number . '"></li>
+                <li data-curr="AUD" data-phone="' . esc_attr($au_number) . '" data-link="' . $au_number . '"></li>
+                <li data-curr="GBP" data-phone="' . esc_attr($gb_number) . '" data-link="' . $gb_number . '"></li>
+                <li data-curr="EUR" data-phone="' . esc_attr($us_number) . '" data-link="' . $us_number . '"></li>
             </ul>';
         echo '</div>'; //mobile_phone
 
@@ -88,32 +88,18 @@ echo '<div class="mobHeader full-section '.esc_attr($headerResult).'" style="dis
                 ]);
                 echo '<div class="currency-mobile">';
 					echo '<div class="current-status cc-current-mobile">';
-						switch ($currency) {
-							case 'GBP':
-								$sign = '&pound;';
-								break;
-							case 'EUR':
-								$sign = '&euro;';
-								break;
-							case 'AUD':
-								$sign = '$';
-								break;
-							default:
-								$sign = '$';
-						}
-						echo $sign . ' ' . esc_html($currency);
+						echo '$ USD';
 					echo '</div>';
 
 					echo '<ul class="auto_switcher right">';
 						$currencies = [
-							'USD' => 'usa-flag.jpg',
-							'AUD' => 'aus-flag.jpg',
-							'GBP' => 'gbp-flag.jpg',
-							'EUR' => 'eur-flag.webp',
+							'USD' => 'usa-flag.png',
+							'AUD' => 'aus-flag.png',
+							'GBP' => 'gbp-flag.png',
+							'EUR' => 'eur-flag.png',
 						];
 						foreach ($currencies as $code => $flag) {
-							$is_current = (cf_curr_currency() === $code) ? 'current' : '';
-							$flag_url = esc_url(get_template_directory_uri() . '/images/' . $flag);
+							$flag_url = esc_url(get_template_directory_uri() . '/images/flags/' . $flag);
 							switch ($code) {
 								case 'GBP':
 									$sign = '&pound;';
@@ -129,7 +115,7 @@ echo '<div class="mobHeader full-section '.esc_attr($headerResult).'" style="dis
 							}
 
 							printf(
-								'<li><a data-value="%s" class="auto_switcher_link %s" href="javascript:;"> %s %s <img src="%s" alt="%s"></a></li>',
+								'<li><a data-value="%s" class="auto_switcher_link %s" href="javascript:;"> <span>%s %s</span> <span class="img"><img src="%s" alt="%s"></span></a></li>',
 								esc_attr($code),
 								esc_attr($is_current),
 								$sign,

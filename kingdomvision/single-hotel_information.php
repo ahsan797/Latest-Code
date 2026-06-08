@@ -105,60 +105,60 @@ $custom_breadcrumb = get_field('custom_breadcrumb');
 
 get_footer();
 
-$hotel_title = get_the_title();
-$hotel_url   = get_permalink();
-$hotel_id    = get_the_ID();
+// $hotel_title = get_the_title();
+// $hotel_url   = get_permalink();
+// $hotel_id    = get_the_ID();
 
-$image_id  = get_post_thumbnail_id();
-$image_url = $image_id ? wp_get_attachment_image_url($image_id, 'full') : '';
+// $image_id  = get_post_thumbnail_id();
+// $image_url = $image_id ? wp_get_attachment_image_url($image_id, 'full') : '';
 
-$brand_name = 'Unforgettable Travel Company'; 
+// $brand_name = 'Unforgettable Travel Company'; 
 
-$additional_properties = [];
+// $additional_properties = [];
 
-if( have_rows('hotel_details') ) {
-    while( have_rows('hotel_details') ) {
-        the_row();
-        $sub_heading = get_sub_field('sub_heading');
-        $rating      = get_sub_field('rating');
-        $description = get_sub_field('hotel_description');
+// if( have_rows('hotel_details') ) {
+//     while( have_rows('hotel_details') ) {
+//         the_row();
+//         $sub_heading = get_sub_field('sub_heading');
+//         $rating      = get_sub_field('rating');
+//         $description = get_sub_field('hotel_description');
 
-        if( $sub_heading || $rating || $description ) {
-            $value_parts = [];
-            if( $rating ) {
-                $value_parts[] = "Rating: " . $rating;
-            }
-            if( $description ) {
-                $clean_description = wp_strip_all_tags( $description );
-                $value_parts[] = "Description: " . $clean_description;
-            }
-            $value_text = implode("; ", $value_parts);
+//         if( $sub_heading || $rating || $description ) {
+//             $value_parts = [];
+//             if( $rating ) {
+//                 $value_parts[] = "Rating: " . $rating;
+//             }
+//             if( $description ) {
+//                 $clean_description = wp_strip_all_tags( $description );
+//                 $value_parts[] = "Description: " . $clean_description;
+//             }
+//             $value_text = implode("; ", $value_parts);
 
-            $additional_properties[] = [
-                "@type" => "PropertyValue",
-                "name"  => $sub_heading ?: "Detail",
-                "value" => $value_text,
-            ];
-        }
-    }
-}
+//             $additional_properties[] = [
+//                 "@type" => "PropertyValue",
+//                 "name"  => $sub_heading ?: "Detail",
+//                 "value" => $value_text,
+//             ];
+//         }
+//     }
+// }
 
-// Build schema as Hotel with brand
-$hotel_schema = [
-    "@context" => "https://schema.org",
-    "@type" => "Hotel",
-    "name" => $hotel_title,
-    "url" => $hotel_url,
-    "image" => $image_url ? [$image_url] : [],
-    "identifier" => (string) $hotel_id,
-    "brand" => [
-        "@type" => "Organization",
-        "name" => $brand_name,
-    ],
-    "additionalProperty" => $additional_properties,
-];
+// // Build schema as Hotel with brand
+// $hotel_schema = [
+//     "@context" => "https://schema.org",
+//     "@type" => "Hotel",
+//     "name" => $hotel_title,
+//     "url" => $hotel_url,
+//     "image" => $image_url ? [$image_url] : [],
+//     "identifier" => (string) $hotel_id,
+//     "brand" => [
+//         "@type" => "Organization",
+//         "name" => $brand_name,
+//     ],
+//     "additionalProperty" => $additional_properties,
+// ];
 ?>
 
-<script type="application/ld+json">
-<?php echo wp_json_encode($hotel_schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
-</script>
+<!-- <script type="application/ld+json"> -->
+<?php //echo wp_json_encode($hotel_schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
+<!-- </script> -->

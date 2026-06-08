@@ -1,10 +1,6 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(1);
-
-$debug = $_GET['debug'] ?? false;
+$debug = isset($_GET['debug']) && current_user_can('manage_options');
 if ($debug) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -165,21 +161,24 @@ function theme_files()
     wp_enqueue_style('theme-fontawesome');
 
     // Google API
-    wp_register_script(
-        'google-map-api',
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyAU7oE95QhMVyp3yEnXqZRxzm4O3KqPO9A&libraries=places,marker&v=weekly",
-        [],
-        null,
-        true
-    );
+    $insertGoogleApi = get_field('insert_google_api', 'option');
+    if($insertGoogleApi){        
+        wp_register_script(
+            'google-map-api',
+            $insertGoogleApi,
+            [],
+            null,
+            true
+        );
 
-    wp_register_script(
-        'google-map-init',
-        THEME_URL . '/js/google-maps.js',
-        array('google-map-api'), // <-- FIXED handle
-        '1.0',
-        true
-    );
+        wp_register_script(
+            'google-map-init',
+            THEME_URL . '/js/google-maps.js',
+            array('google-map-api'), // <-- FIXED handle
+            '1.0',
+            true
+        );
+    }
 
     if (get_post_type() == 'product' || get_post_type() == 'experiences' || get_post_type() == 'ship_information' || get_post_type() == 'hotel_information') {
 
@@ -187,9 +186,9 @@ function theme_files()
         wp_enqueue_script('google-map-init');
     }
 
-    $googleApiChoose = get_field('choose_api', 'option');
+    $googleApiChoose = get_field('choose_google_api', 'option');
 
-    if ((is_array($googleApiChoose) && !empty($googleApiChoose)) || is_single()) {
+    if ( $insertGoogleApi && (is_array($googleApiChoose) && !empty($googleApiChoose)) || is_single() ) {
 
         wp_enqueue_script('google-map-api');
         wp_enqueue_script('google-map-init');
@@ -222,11 +221,18 @@ function add_defer_to_styles( $html, $handle, $href, $media ) {
 }
 add_filter( 'style_loader_tag', 'add_defer_to_styles', 10, 4 );
 
+function addCspHeader() {
+    // Ek basic default-src policy for inline scripts aur safe sources allow
+    header("Content-Security-Policy: default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https:;");
+}
+// add_action('send_headers', 'addCspHeader');
+
 add_action('wp_footer', function() {
     if (wp_script_is('kv-script', 'enqueued')) {
         $base_currency = get_field('base_currency', 'option') ?: 'USD';
         wp_localize_script('kv-script', 'kingdomVision', array(
-            'ajaxurl'      => admin_url('admin-ajax.php'),
+            'ajaxurl'  => admin_url('admin-ajax.php'),
+            'nonce'    => wp_create_nonce( 'filter_blog_nonce' ),
             'themeUrl' => get_template_directory_uri(),
             'baseCurrency' => $base_currency,
             'videos' => !empty($GLOBALS['ywCloudVideos']) ? $GLOBALS['ywCloudVideos'] : array(),
@@ -234,6 +240,7 @@ add_action('wp_footer', function() {
         ));
     }
 }, 5);
+
 
 // Currency Script
 function currency_enqueue_scripts()
@@ -305,7 +312,7 @@ add_action('acf/init', function () {
             'page_title'     => 'Theme Options',
             'menu_title'    => 'Theme Options',
             'menu_slug'     => 'theme-options',
-            'capability'    => 'edit_posts',
+            'capability'    => 'manage_options',
             'redirect'        => false
         ));
 
@@ -353,30 +360,45 @@ add_theme_support('post-thumbnails');
 // Woocommerce Support
 add_theme_support('woocommerce');
 
-// Allow SVG Upload
-function my_theme_custom_upload_mimes($existing_mimes)
-{
-    $existing_mimes['svg'] = 'image/svg+xml';
-    // Return the array back to the function with our added mime type.
-    return $existing_mimes;
-}
-add_filter('mime_types', 'my_theme_custom_upload_mimes');
-
-function my_custom_mime_types($mimes)
-{
-
-    // New allowed mime types.
-    $mimes['svg'] = 'image/svg+xml';
+// SVG Allow For Media Library
+function my_custom_mime_types($mimes) {
+    $mimes['svg']  = 'image/svg+xml';
     $mimes['svgz'] = 'image/svg+xml';
-    $mimes['doc'] = 'application/msword';
-
-    // Optional.Remove a mime type.
-    unset($mimes['exe']);
-
+    $mimes['doc']  = 'application/msword';
+    
+    unset($mimes['exe']); // Security Purpose
     return $mimes;
 }
 add_filter('upload_mimes', 'my_custom_mime_types');
 
+// 2. wp_handle_upload_prefilter used for sanitize
+function secure_sanitize_svg_upload($file) {
+    // Check If the file is SVG
+    if (isset($file['type']) && $file['type'] === 'image/svg+xml') {
+        
+        $file_path = $file['tmp_name'];
+        
+        if (file_exists($file_path)) {
+            // SVG file content
+            $svg_content = file_get_contents($file_path);
+            
+            // --- SANITIZATION LOGIC ---
+            $svg_content = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $svg_content);
+            $svg_content = preg_replace('/on\w+\s*=\s*"[^"]*"/i', '', $svg_content);
+            $svg_content = preg_replace('/on\w+\s*=\s*\'[^\']*\'/i', '', $svg_content);
+            $svg_content = preg_replace('/on\w+\s*=\s*[^\s>]+/i', '', $svg_content);
+            
+            // Filter javascript: pseudo-protocol
+            $svg_content = preg_replace('/href\s*=\s*["\']\s*javascript:[^"\']*["\']/i', 'href="#"', $svg_content);
+            
+            // Cleaned content 
+            file_put_contents($file_path, $svg_content);
+        }
+    }
+    
+    return $file;
+}
+add_filter('wp_handle_upload_prefilter', 'secure_sanitize_svg_upload');
 
 //Current Year Shortcode [year]
 function currentYear($atts)
@@ -674,12 +696,12 @@ function backgroundFromSection($section)
     if ($background_option === 'img' && $background_image) {
 
         $image_url = wp_get_attachment_image_url($background_image, 'full');
-        $result .= 'style="background: url(' . $image_url . ')no-repeat center/cover; ' . $sectionSpacing . '" 
+        $result .= 'style="background: url(' . esc_url($image_url) . ')no-repeat center/cover; ' . $sectionSpacing . '" 
                     showDesktop="' . ($show_in_desktop ? 'showOnDesktop' : 'hideOnDesktop') . '" showMobile="' . ($show_in_mobile ? 'showOnMobile' : 'hideOnMobile') . '" ';
     } else {
         if ($background_color) {
 
-            $result .= 'style="background: ' . $background_color . '; ' . $sectionSpacing . '" 
+            $result .= 'style="background: ' . esc_attr($background_color) . '; ' . $sectionSpacing . '" 
                         showDesktop="' . ($show_in_desktop ? 'showOnDesktop' : 'hideOnDesktop') . '" showMobile="' . ($show_in_mobile ? 'showOnMobile' : 'hideOnMobile') . '" ';
         } else {
             $result .= 'style="' . $sectionSpacing . '" 
@@ -703,10 +725,6 @@ function HeadingFromSection($section, $postID = 0, $class = '')
 
     $heading_break_text =  !empty($section['heading_break_text']) ? $section['heading_break_text'] : ($postID ? get_field('heading_break_text', $postID) : '');
     $heading_sub_text =  !empty($section['heading_sub_text']) ? $section['heading_sub_text'] : ($postID ? get_field('heading_sub_text', $postID) : '');
-
-    if (@$_GET['heading'] == 1) {
-        echo $heading_tags . '<br/>' . $heading_alignment . '<br/>' . $heading_text . '<br/>' . $heading_color . '<br/>' . $heading_size . '<br/>' . $heading_break_text . '<br/>' . $heading_sub_text . '<br/>';
-    }
 
     $style = '';
     if ($heading_color || $heading_size) {
@@ -1082,30 +1100,35 @@ function blogStructureFromRepeator($rep, $button_text = '', $titleColor = '', $b
     $date = '';
     $listingImg = '';
 
+    // Offer Ribbon Setting From Theme Option
+    $theme_offer_ribbon = get_field('offer_ribbon', 'option') ?? [];
+
     if ($is_post) {
         $post_id = is_numeric($rep) ? $rep : $rep->ID;
+
+        $getFields = get_fields($post_id);
 
         $blogImgID = get_post_thumbnail_id($post_id) ?: defaultImageID();
         $blogUrl   = get_the_permalink($post_id);
         $blogTitle = get_the_title($post_id);
         $blogCont  = get_post_field('post_content', $post_id) ?: '';
-        $product   = get_field('product', $post_id) ?: '';
-        $post_ribbon  = get_field('offer_ribbon', $post_id) ?: '';
+        $product   = isset($getFields['product']) ? $getFields['product'] : '';
+        $post_ribbon  = isset($getFields['offer_ribbon']) ? $getFields['offer_ribbon'] : '';
 
         // Author Details
-        $select_auhtor   = get_field('select_member', $post_id) ?? '';
-        $date   = get_field('date', $post_id) ?? '';
+        $select_auhtor   = isset($getFields['select_member']) ? $getFields['select_member'] : '';
+        $date   = isset($getFields['date']) ? $getFields['date'] : '';
         // Theme Specialist
-        $teamMembersOption = get_field('team_members', 'option') ?? [];
+        $teamMembersOption = isset($getFields['team_members']) ? $getFields['team_members'] : [];
 
         // 
-        $hotels = get_field('hotel_details', $post_id) ?: '';
+        $hotels = isset($getFields['hotel_details']) ? $getFields['hotel_details'] : '';
 
         // Ship
-        $shipBuilder = get_field('product_page_builder', $post_id);
+        $shipBuilder = isset($getFields['product_page_builder']) ? $getFields['product_page_builder'] : '';
 
         // Listing Image
-        $listingImg = get_field('listing_image' , $post_id) ?: '';
+        $listingImg = isset($getFields['listing_image']) ? $getFields['listing_image'] : '';
     } else {
         $blogImgID = $rep['image'] ?? '';
         $blogUrl   = $rep['button']['url'] ?? '';
@@ -1149,9 +1172,6 @@ function blogStructureFromRepeator($rep, $button_text = '', $titleColor = '', $b
     // Get Hotel Data
     $hotel_one_liner = !empty($hotels['hotel_one_liner']) ? $hotels['hotel_one_liner'] : '';
 
-    // Offer Ribbon Setting From Theme Option
-    $theme_offer_ribbon = get_field('offer_ribbon', 'option') ?? [];
-
     // FINAL RIBBON - Post ribbon > Theme ribbon fallback
     $final_ribbon_option = !empty($post_ribbon) ? $post_ribbon : $theme_offer_ribbon;
 
@@ -1190,8 +1210,8 @@ function blogStructureFromRepeator($rep, $button_text = '', $titleColor = '', $b
                 // $printable .= wp_get_attachment_image($blogImgID, 'full', false, ['loading' => 'lazy']);
             }
         $printable .= '</div>'; #blogImg
-        $printable .= '<div class="blogCont" ' . ($boxColor ? 'style=" padding: 20px;"' : '') . '>';
-            $printable .= '<h3 class="title" ' . ($titleColor ? 'style="color: ' . $titleColor . ';"' : '') . '>' . $blogTitle . '</h3>';
+        $printable .= '<div class="blogCont '.($boxColor ? 'boxColor' : '').'" ' . ($boxColor ? 'style=" padding: 20px;"' : '') . '>';
+            $printable .= '<h3 class="title" ' . ($titleColor ? 'style="color: ' . esc_attr($titleColor) . ';"' : '') . '>' . esc_html($blogTitle) . '</h3>';
             if ($hotel_one_liner && $post_type == 'hotel_information') {
                 $printable .= '<p class="tripLocation" style="text-transform: capitalize;">' . esc_html($hotel_one_liner) . '</p>';
             }
@@ -1238,10 +1258,10 @@ function blogStructureFromRepeator($rep, $button_text = '', $titleColor = '', $b
                 foreach ($shipDetails as $shipItems) {
                     $printable .= '<li>';
                     if (!empty($shipItems['label'])) {
-                        $printable .= '<span class="label">' . $shipItems['label'] . '</span>';
+                        $printable .= '<span class="label">' . esc_html($shipItems['label']) . '</span>';
                     }
                     if (!empty($shipItems['label_text'])) {
-                        $printable .= '<span class="labelText">' . $shipItems['label_text'] . '</span>';
+                        $printable .= '<span class="labelText">' . esc_html($shipItems['label_text']) . '</span>';
                     }
                     $printable .= '</li>';
                 }
@@ -1319,7 +1339,7 @@ function customizedTripFromOption()
     $printable .= '<div class="custTripCont">';
     if ($customized_content) {
         $printable .= '<div class="wysiwygContent">';
-        $printable .= $customized_content;
+        $printable .= wp_kses_post($customized_content);
         $printable .= '</div>'; #wysiwygContent
     }
     if ($customized_link) {
@@ -1419,8 +1439,6 @@ function jumplinksCode($jump, $jumplink_layout = '', $jumplink_title = '')
 {
     $jumplinks = $jump;
 
-    // pre($jumplinks);
-
     $validLinks = array_filter($jumplinks, function ($item) {
         return !empty($item['label']) && (!empty($item['jumplink_section_id']) || !empty($item['link_another_page']));
     });
@@ -1454,7 +1472,7 @@ function jumplinksCode($jump, $jumplink_layout = '', $jumplink_title = '')
                 $link_target = $link_page['target'] ? $link_page['target'] : '_self';
                 $printable .= '<a href="' . esc_url($link_url) . '" target="' . esc_attr($link_target) . '" ' . ($link_target == '_blank' ? 'rel="nofollow"' : '') . '>' . ($label ? esc_html($label) : esc_html($link_title)) . '</a>';
             } else {
-                $printable .= '<a href="#' . $jumplink_id . '">' . esc_html($label) . '</a>';
+                $printable .= '<a href="#' . esc_attr($jumplink_id) . '">' . esc_html($label) . '</a>';
             }
 
             $printable .= '</li>';
@@ -1700,10 +1718,6 @@ add_shortcode('buttons', 'buttonRepeatorShortcodes');
 function getFocalImage($imageField, $imageFieldName = '', $pageIndex = '', $repeaterKey = 0, $styleAttr = '', $loading = '', $fetchpriority = '')
 {
 
-    if (@$_GET['focal'] == 1) {
-        echo $imageField . '<br/>' . $imageFieldName . '<br/>' . $pageIndex . '<br/>' . $repeaterKey . '<br/>' . $styleAttr . '<br/>';
-    }
-
     if (!$imageField) return '';
 
     $focalUrl = cca_get_focal_crop_url(
@@ -1722,8 +1736,6 @@ function getFocalImage($imageField, $imageFieldName = '', $pageIndex = '', $repe
 
 function getFocalImageUrl($imageField, $imageFieldName = '', $pageIndex = '', $repeaterKey = 0,)
 {
-    // echo $imageField .'<br/>'.$imageFieldName .'<br/>'.$pageIndex .'<br/>'.$repeaterKey .'<br/>';
-
     if (!$imageField) return '';
 
     $focalUrl = cca_get_focal_crop_url(
@@ -1780,8 +1792,6 @@ add_filter('acf/validate_value/name=banner_slider', function ($valid, $value, $f
 
 function regularSalePrice($perNight = false, $duration = '', $regularPrice = '', $salePrice = '', $class = '')
 {
-    // echo $RegularPrice .'<br/>'.$salePrice .'<br/>'.$class .';
-
     $printable = '';
 
     if (!$regularPrice && !$salePrice) return '';
@@ -1839,3 +1849,11 @@ function getPhoneNumberCode()
 }
 
 add_filter( 'gform_disable_css', '__return_true' );
+
+// Wordpress admin Css
+function kvCustomAdminCss() {
+    echo '<style>
+        div#major-publishing-actions {flex-wrap: wrap !important;}
+    </style>';
+}
+add_action( 'admin_head', 'kvCustomAdminCss' );

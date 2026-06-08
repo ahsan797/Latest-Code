@@ -101,42 +101,42 @@ echo '</main>';
 
 get_footer();
 
-$ship_title = get_the_title();
-$ship_url   = get_permalink();
-$ship_id    = get_the_ID();
+// $ship_title = get_the_title();
+// $ship_url   = get_permalink();
+// $ship_id    = get_the_ID();
 
-$image_id  = get_post_thumbnail_id();
-$image_url = $image_id ? wp_get_attachment_image_url($image_id, 'full') : '';
+// $image_id  = get_post_thumbnail_id();
+// $image_url = $image_id ? wp_get_attachment_image_url($image_id, 'full') : '';
 
-$additional_properties = [];
+// $additional_properties = [];
 
-if( have_rows('ships_details') ) {
-    while( have_rows('ships_details') ) {
-        the_row();
-        $label = get_sub_field('label');
-        $value = get_sub_field('label_text');
-        if( $label && $value ) {
-            $additional_properties[] = [
-                "@type" => "PropertyValue",
-                "name" => $label,
-                "value" => $value,
-            ];
-        }
-    }
-}
+// if( have_rows('ships_details') ) {
+//     while( have_rows('ships_details') ) {
+//         the_row();
+//         $label = get_sub_field('label');
+//         $value = get_sub_field('label_text');
+//         if( $label && $value ) {
+//             $additional_properties[] = [
+//                 "@type" => "PropertyValue",
+//                 "name" => $label,
+//                 "value" => $value,
+//             ];
+//         }
+//     }
+// }
 
-// Build schema as TouristTrip
-$ship_schema = [
-    "@context" => "https://schema.org",
-    "@type" => "TouristTrip",
-    "name" => $ship_title,
-    "url" => $ship_url,
-    "image" => $image_url ? [$image_url] : [],
-    "identifier" => (string) $ship_id,
-    "additionalProperty" => $additional_properties,
-];
-?>
+// // Build schema as TouristTrip
+// $ship_schema = [
+//     "@context" => "https://schema.org",
+//     "@type" => "TouristTrip",
+//     "name" => $ship_title,
+//     "url" => $ship_url,
+//     "image" => $image_url ? [$image_url] : [],
+//     "identifier" => (string) $ship_id,
+//     "additionalProperty" => $additional_properties,
+// ];
+// ?>
 
-<script type="application/ld+json">
-<?php echo wp_json_encode($ship_schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
-</script>
+ <!-- <script type="application/ld+json"> -->
+ <?php //echo wp_json_encode($ship_schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
+ <!-- </script> -->
