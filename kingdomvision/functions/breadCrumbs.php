@@ -106,7 +106,7 @@ function location_schema() {
             $values = strtolower($value);
             if (!in_array($values, $href_url))
                 continue;
-            printf('<script type="application/ld+json">{"@context":"http://schema.org","@type":"Place","name":"%s","publicAccess":true,"isAccessibleForFree":true,"sameAs":["%s","%s"]}</script>', get_sub_field('schema_title'), get_sub_field('schema_wikipedia_url'), get_sub_field('schema_wikidata_url'));
+            printf('<script type="application/ld+json">{"@context":"https://schema.org","@type":"Place","name":"%s","publicAccess":true,"isAccessibleForFree":true,"sameAs":["%s","%s"]}</script>', get_sub_field('schema_title'), get_sub_field('schema_wikipedia_url'), get_sub_field('schema_wikidata_url'));
 
         endwhile;
     endif;
@@ -148,7 +148,7 @@ function homeschema() {
     if (is_front_page()) { ?>
         <script type="application/ld+json">
             {
-                "@context": "http://schema.org",
+                "@context": "https://schema.org",
                 "@type": "TravelAgency",
                 "name": "Unforgettable Croatia",
                 "description": "Unforgettable Croatia are the largest luxury tour operator to Croatia. We are connoisseurs of unique travel experiences and truly unforgettable trips to this magnificent country.",
