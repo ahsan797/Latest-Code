@@ -12,12 +12,17 @@ $select_member = $section['select_member'] ?? '';
 $expert_description = $section['expert_description'] ?? '';
 $opening_times = $section['opening_times'] ?? '';
 
+$getCookieData = $section['get_cookie_data'] ?? '';
+
 // Theme Specialist
 $teamMembersOption = get_field('team_members' , 'option') ?? [];
 
 $au_number = get_field('au_number' , 'option');
 $gb_number = get_field('gb_number' , 'option');
 $us_number = get_field('us_number' , 'option');
+
+
+
 $currency = cf_curr_currency();
 
 // Cookies Variable
@@ -36,7 +41,7 @@ echo '<section class="utc-form full-section '.esc_attr($section_text_color).' '.
     echo '<div class="container">';
         
         echo '<div class="leftSide">';
-            echo HeadingFromSection($section);
+            echo HeadingFromSection($section, 0 , '', $getCookieData);
             if($form_shortcode){
                 echo '<div class="formShortcode">';
                     echo do_shortcode($form_shortcode);

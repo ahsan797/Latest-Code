@@ -20,6 +20,7 @@ echo '<div class="content-wrapper full-section searchPage">';
                 echo '</div>'; #blogWrapper
             echo '</div>'; #container
         echo '</section>'; #searchWrapper
+        wp_reset_postdata();
     }else{
         echo '<div class="container" style="text-align:center;">';
             echo '<h2 style="margin:20px 0;display:inline-block;">Nothing Found</h2>';

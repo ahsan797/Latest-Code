@@ -17601,6 +17601,27 @@
                             "endpoint": 1
                         },
                         {
+                            "key": "field_6a26b0265e54c",
+                            "label": "Get Cookie Data",
+                            "name": "get_cookie_data",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
+                        },
+                        {
                             "key": "field_695234fa8fb07",
                             "label": "Heading Tags",
                             "name": "heading_tags",
@@ -17732,7 +17753,7 @@
                         },
                         {
                             "key": "field_69c515458087c",
-                            "label": "Heading Break Text",
+                            "label": "Heading Break Text (Cookie Title)",
                             "name": "heading_break_text",
                             "aria-label": "",
                             "type": "text",
@@ -25362,5 +25383,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1780905958
+    "modified": 1780920902
 }

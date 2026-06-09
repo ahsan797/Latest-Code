@@ -6,7 +6,7 @@ $section = $args['section'] ?: [];
 $uniqueSectionClass = $args['uniqueSectionClass'] ?: '';
 $theme = $args['theme'] ?? '';
 
-$section_text_color = $section['section_text_color'] ?: '';
+$section_text_color = $section['section_text_color'] ?? '';
 $bg = backgroundFromSection($section); //Fixed For All Section
 $section_id = preg_replace('/\s+/', '', $section['section_id']) ?: '';
 

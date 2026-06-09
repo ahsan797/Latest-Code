@@ -388,6 +388,7 @@ jQuery(function ($) {
                 settings: {
                   slidesToShow: 1,
                   slidesToScroll: 1,
+                  adaptiveHeight: false
                 }
               }
             ]
@@ -401,6 +402,8 @@ jQuery(function ($) {
         initSlider('.bannerSliderWrapper.activeSlider', sliderOptions);
 
         observeForCloudflareIframe();
+
+
     }
 
     // Store iframe src for later use
@@ -511,6 +514,30 @@ jQuery(function ($) {
         }
     });
 
+    $(window).on('load resize', function() {
+        let $slider = $('.bannerSliderWrapper.activeSlider');
+        
+        if ($slider.hasClass('slick-initialized')) {
+            setTimeout(function() {
+                $slider.slick('setPosition');
+                
+                let currentMobileWidth = $(window).width(); 
+                
+                if (currentMobileWidth <= 767) {
+                    $slider.find('.slick-track').css({
+                        'width': (currentMobileWidth * $slider.find('.slick-slide').length) + 'px', // Total slides width
+                        'display': 'block',
+                        'transform': 'none'
+                    });
+                    
+                    $slider.find('.slick-slide').css({
+                        'width': currentMobileWidth + 'px',
+                        'height': 'auto'
+                    });
+                }
+            }, 150); // 150ms 
+        }
+    });
 
     // Helper → Extract YouTube video ID for loop playlist
     function extractYouTubeID(url) {
@@ -2421,6 +2448,7 @@ jQuery(function ($) {
             type: "POST",
             data: {
                 action: "filter_blog_posts",
+                nonce: kingdomVision.nonce,
                 region: region,
                 interests: interests,
                 postPerPage: $('.ajaxFilter .postFilterResult').attr('data-page'),
