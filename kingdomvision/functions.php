@@ -714,7 +714,7 @@ function backgroundFromSection($section)
 
 
 // Dynamic Heading From Section
-function HeadingFromSection($section, $postID = 0, $class = '')
+function HeadingFromSection($section, $postID = 0, $class = '', $getCookieData = false)
 {
 
     $heading_tags = !empty($section['heading_tags']) ? $section['heading_tags'] : ($postID ? get_field('heading_tags', $postID) : '');
@@ -735,17 +735,17 @@ function HeadingFromSection($section, $postID = 0, $class = '')
     if ($heading_text && $heading_break_text) {
         $printable .= '<div class="headingWrapper ' . esc_attr($class) . '">';
         if ($heading_tags == 'h1') {
-            $printable .= '<h1 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="cookiesTitle"></span> ' . esc_html($heading_break_text) . '</h1>';
+            $printable .= '<h1 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="'.($getCookieData == true ? 'cookiesTitle' : '').'"></span> ' . esc_html($heading_break_text) . '</h1>';
         } elseif ($heading_tags == 'h3') {
-            $printable .= '<h3 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="cookiesTitle"></span> ' . esc_html($heading_break_text) . '</h3>';
+            $printable .= '<h3 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="'.($getCookieData == true ? 'cookiesTitle' : '').'"></span> ' . esc_html($heading_break_text) . '</h3>';
         } elseif ($heading_tags == 'h4') {
-            $printable .= '<h4 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="cookiesTitle"></span> ' . esc_html($heading_break_text) . '</h4>';
+            $printable .= '<h4 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="'.($getCookieData == true ? 'cookiesTitle' : '').'"></span> ' . esc_html($heading_break_text) . '</h4>';
         } elseif ($heading_tags == 'h5') {
-            $printable .= '<h5 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="cookiesTitle"></span> ' . esc_html($heading_break_text) . '</h5>';
+            $printable .= '<h5 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="'.($getCookieData == true ? 'cookiesTitle' : '').'"></span> ' . esc_html($heading_break_text) . '</h5>';
         } elseif ($heading_tags == 'h6') {
-            $printable .= '<h6 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="cookiesTitle"></span> ' . esc_html($heading_break_text) . '</h6>';
+            $printable .= '<h6 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="'.($getCookieData == true ? 'cookiesTitle' : '').'"></span> ' . esc_html($heading_break_text) . '</h6>';
         } else {
-            $printable .= '<h2 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="cookiesTitle"></span> ' . esc_html($heading_break_text) . '</h2>';
+            $printable .= '<h2 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_text) . ' <span class="'.($getCookieData == true ? 'cookiesTitle' : '').'"></span> ' . esc_html($heading_break_text) . '</h2>';
         }
         $printable .= '<h3 class="heading ' . $heading_alignment . '" ' . ($style ? $style : '') . '>' . esc_html($heading_sub_text) . '</h3>';
         $printable .= '</div>'; #headingWrapper
@@ -1821,7 +1821,6 @@ add_shortcode('getPhoneNumber', 'getPhoneNumberCode');
 function getPhoneNumberCode()
 {
     ob_start();
-    $currency = cf_curr_currency();
 
     $au_number = get_field('au_number', 'option') ?? '';
     $gb_number = get_field('gb_number', 'option') ?? '';
@@ -1829,20 +1828,8 @@ function getPhoneNumberCode()
 
     if ($au_number || $gb_number || $us_number) {
         echo '<div class="callWrap numbers-switcher">';
-        echo '<span>T: </span>';
-        if ($currency === 'USD' && !empty($us_number)) {
-            $us_number = preg_replace('/\s+/', '', $us_number);
-            printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));
-        } elseif ($currency === 'AUD' && !empty($au_number)) {
-            $au_number = preg_replace('/\s+/', '', $au_number);
-            printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($au_number), esc_html($au_number));
-        } elseif ($currency === 'GBP' && !empty($gb_number)) {
-            $gb_number = preg_replace('/\s+/', '', $gb_number);
-            printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($gb_number), esc_html($gb_number));
-        } else {
-            $us_number = preg_replace('/\s+/', '', $us_number);
-            printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));
-        }
+            echo '<span>T: </span>';
+            echo '<a class="cc-phone phone call_btn" rel="nofollow" href="tel:'.esc_attr($us_number).'">'.esc_html($us_number).'</a>';
         echo '</div>'; #callWrap
     }
     return '' . ob_get_clean();

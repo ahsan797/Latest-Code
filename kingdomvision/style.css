@@ -818,7 +818,7 @@ section.trending-blogs .blogWrapper.light .blogItem a.btn:hover:after { filter: 
 .blogImg .specialOffer span { letter-spacing: 1.4px; text-transform: uppercase; font-size: 14px; font-weight: 600; }
 .blogWrapper .blogItem .blogImg img { width: 100%; height: 377px; object-fit: cover; }
 .container.ic .blogWrapper .blogItem .blogCont h3.title { font-weight: 600; }
-.container.ic .blogWrapper .blogItem .blogCont p { margin: 0; }
+/*.container.ic .blogWrapper .blogItem .blogCont p { margin: 0; }*/
 .light .container.ic .blogWrapper .blogItem .blogCont h3.title { color: #F2E2C4; }
 .light .container.ic .blogWrapper .blogItem .blogCont p { color: #ffffff; }
 .container.ofc .slick-track { display: flex; }

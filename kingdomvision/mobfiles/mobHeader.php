@@ -115,9 +115,8 @@ echo '<div class="mobHeader full-section '.esc_attr($headerResult).'" style="dis
 							}
 
 							printf(
-								'<li><a data-value="%s" class="auto_switcher_link %s" href="javascript:;"> <span>%s %s</span> <span class="img"><img src="%s" alt="%s"></span></a></li>',
+								'<li><a data-value="%s" class="auto_switcher_link " href="javascript:;"> <span>%s %s</span> <span class="img"><img src="%s" alt="%s"></span></a></li>',
 								esc_attr($code),
-								esc_attr($is_current),
 								$sign,
 								esc_html($code),
 								$flag_url,
