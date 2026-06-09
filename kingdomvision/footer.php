@@ -19,7 +19,7 @@ if($showhide_newsletter_section === null || $showhide_newsletter_section === fal
 	$image_url = wp_get_attachment_image_url( $background_image, 'full' );
 	if($newsbg == 'bgimage'){
 		echo '<div class="footerNewsletter full-section '.$showhide_newsletter_section.' '.esc_attr($newsletter_text_color).'" id="newsletter" role="region" aria-label="Newsletter Signup"
-		'.($image_url ? 'style="background: url('.$image_url.')no-repeat center/cover;"' : '').'>';
+		'.($image_url ? 'style="background: url('.esc_url($image_url).') no-repeat center/cover;"' : '').'>';
 	} else {
 		echo '<div class="footerNewsletter full-section '.$showhide_newsletter_section.' '.esc_attr($newsletter_text_color).'" id="newsletter" role="region" aria-label="Newsletter Signup"
 		'.($newsletter_bg_color ? 'style="background-color: '. $newsletter_bg_color .';"' : '').'>';
@@ -71,14 +71,14 @@ echo '<footer class="mainFooter full-section" >';
 		echo '<div class="container">';
 			if($footer_menus){
 				echo '<div class="footer-columns" aria-label="Footer navigation">';
-					foreach($footer_menus as $key => $menus){
+					foreach($footer_menus as $menukey => $menus){
 						$footer_links = $menus['footer_links'] ?: '';
 						
 						// role="column'.esc_attr($key + 1).'"
-						echo '<div class="col column'.esc_attr($key + 1).'" aria-labelledby="column'.esc_attr($key + 1).'">';
+						echo '<div class="col column'.esc_attr($menukey + 1).'" aria-labelledby="column'.esc_attr($menukey + 1).'">';
 							if($footer_links){
 								echo '<ul class="footer_links">';
-									foreach($footer_links as $key => $links){
+									foreach($footer_links as $lkey => $links){
 										$main_title = $links['main_title'] ?: '';
 										$link = $links['link'] ?: '';
 
@@ -108,13 +108,13 @@ echo '<footer class="mainFooter full-section" >';
 						}
 						if($social_icons){
 							echo '<ul class="social_icons">';
-								foreach($social_icons as $key => $icons){
+								foreach($social_icons as $iconkey => $icons){
 									$icon = $icons['icons'] ?: '' ;
 									$url = $icons['url'] ?: '' ;
 									
 									echo '<li>';
 										if($url){
-											echo '<a href="'.esc_url( $url ).'" target="_blank" aria-label="'.esc_url( $url ).'"><i class="'.$icon.'"></i></a>';
+											echo '<a href="'.esc_url( $url ).'" target="_blank" aria-label="'.esc_attr( $icon ).'"><i class="'.$icon.'"></i></a>';
 										}else{
 											echo '<i class="'.$icon.'"></i>';
 										}
@@ -142,7 +142,7 @@ echo '<footer class="mainFooter full-section" >';
 
 					if ($copyright_text ) {
 						echo '<div class="leftSide" '.($w_c_hide_show != true ? 'style="width: 100%;"' : '').'>';
-							echo '<p class="'.($copyright_alignment ? esc_attr($copyright_alignment) : '').'">' . do_shortcode($copyright_text) . '</p>';
+							echo '<p class="'.($copyright_alignment ? esc_attr($copyright_alignment) : '').'">'.wp_kses_post(do_shortcode($copyright_text)).'</p>';
 						echo '</div>';
 					}
 

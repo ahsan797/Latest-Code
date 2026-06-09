@@ -1,8 +1,8 @@
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
-<title><?php bloginfo('name'); ?> <?php wp_title(); ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 <?php wp_head(); ?>
 </head>
@@ -21,7 +21,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager -->
 <!--Main Wrapper-->
-<div class="main-wrapper full-section" role="Main Wrapper" aria-labelledby="Main Wrapper">
+<div class="main-wrapper full-section" aria-labelledby="Main Wrapper">
 
 <?php
 

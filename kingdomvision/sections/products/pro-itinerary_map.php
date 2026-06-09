@@ -164,7 +164,7 @@ function itineraryMapInitialize() {
             var myLatLng = new google.maps.LatLng(marker[1], marker[2]);
 
             let iconImg = document.createElement("img");
-            iconImg.src = '<?php echo THEME_URL . "/images/mapointer/map_pointer"; ?>' + (i + 1) + '.png';
+            iconImg.src = '<?php echo esc_url(THEME_URL."/images/mapointer/map_pointer"); ?>' + (i + 1) + '.png';
 
             let eachMarker = new google.maps.marker.AdvancedMarkerElement({
                 position: myLatLng,

@@ -28,7 +28,7 @@ echo '<section class="wide-image full-section '.esc_attr($section_text_color).' 
         echo '<div class="contWrapper">';
 			if($sub_title){
                 echo '<div class="subHeading">';
-					echo '<span>'.$sub_title.'</span>';
+					echo '<span>'.esc_html($sub_title).'</span>';
 				echo '</div>'; #subHeading
             }
             echo HeadingFromSection($section);

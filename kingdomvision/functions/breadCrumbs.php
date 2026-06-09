@@ -117,7 +117,7 @@ function location_schema() {
     if (!empty($breadcrumbs)) {
         $schema = '<script type="application/ld+json" cst-crumb-schema>{"@context": "https://schema.org","@type": "BreadcrumbList","itemListElement": [';
         $i = 1;
-        if (!home_url()) {
+        if (!is_front_page()) {
             foreach ($breadcrumbs as $track) {
                 $value = $track['custom_breadcrumb_link'];
                 $post_id = $value->ID;

@@ -33,12 +33,12 @@ echo '<section class="faqs full-section '.esc_attr($section_text_color).' '.esc_
 
                 echo '<div class="faqWrapper twoColumn">';
                     echo '<div class="col columnOne">';
-                        echo '<div class="faqListing" role="list" data-open="'.esc_attr($default_open).'">';
+                        echo '<div class="faqListing" data-open="'.esc_attr($default_open).'">';
                             foreach ($first_half as $lists) {
-                                $question = $lists['question'];
-                                $answer = $lists['answer'];
+                                $question = $lists['question'] ?? '';
+                                $answer = $lists['answer'] ?? '';
 
-                                echo '<div class="faqItem" role="listitem">';
+                                echo '<div class="faqItem" >';
                                     echo '<div class="question"><h3>'.$question.'</h3></div>';
                                     echo WysiwygReadMoreLess($answer ,  'answer');
                                 echo '</div>';
@@ -46,12 +46,12 @@ echo '<section class="faqs full-section '.esc_attr($section_text_color).' '.esc_
                         echo '</div>'; #faqListing
                     echo '</div>'; #columnOne
                     echo '<div class="col columnTwo">';
-                        echo '<div class="faqListing" role="list" data-open="'.esc_attr($default_open).'">';
+                        echo '<div class="faqListing" data-open="'.esc_attr($default_open).'">';
                             foreach ($second_half as $lists) {
-                                $question = $lists['question'];
-                                $answer = $lists['answer'];
+                                $question = $lists['question'] ?? '';
+                                $answer = $lists['answer'] ?? '' ;
 
-                                echo '<div class="faqItem" role="listitem">';
+                                echo '<div class="faqItem" >';
                                     echo '<div class="question"><h3>'.$question.'</h3></div>';
                                     echo WysiwygReadMoreLess($answer ,  'answer');
                                 echo '</div>';
@@ -63,8 +63,8 @@ echo '<section class="faqs full-section '.esc_attr($section_text_color).' '.esc_
             }else{
                 echo '<div class="faqListing" role="lists" data-open="'.esc_attr($default_open).'">';
                     foreach($faqs_lists as $key => $lists){
-                        $question = $lists['question'];
-                        $answer = $lists['answer'];
+                        $question = $lists['question'] ?? '';
+                        $answer = $lists['answer'] ?? '';
 
                         echo '<div class="faqItem" role="listitem" >';
                             echo '<div class="question">';

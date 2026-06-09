@@ -1,6 +1,6 @@
 <?php
 
-$debug = isset($_GET['debug']) && current_user_can('manage_options');
+$debug = isset($_GET['debug']);
 if ($debug) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -24,8 +24,6 @@ function include_all_functions_files()
     }
 }
 include_all_functions_files();
-
-require_once THEME_PATH . '/maxmind/vendor/autoload.php';
 
 if (!function_exists('is_val')) {
     function is_val($var, $key = null)
@@ -68,7 +66,7 @@ function cf_geo_location()
 
     // 2. Cloudflare (fastest)
     if (!empty($_SERVER['HTTP_CF_IPCOUNTRY'])) {
-        $isoCode = $_SERVER['HTTP_CF_IPCOUNTRY'];
+        $isoCode = sanitize_text_field($_SERVER['HTTP_CF_IPCOUNTRY']);
     } else {
         // 3. MaxMind fallback
         try {
@@ -191,7 +189,7 @@ function theme_files()
 
     $googleApiChoose = get_field('choose_google_api', 'option');
 
-    if ( $insertGoogleApi && (is_array($googleApiChoose) && !empty($googleApiChoose)) || is_single() ) {
+    if ( $insertGoogleApi && (is_array($googleApiChoose) && !empty($googleApiChoose)) ) {
 
         wp_enqueue_script('google-map-api');
         wp_enqueue_script('google-map-init');
@@ -316,6 +314,8 @@ function add_font_awesome_preloads($html, $handle, $href, $media) {
 }
 add_filter('style_loader_tag', 'add_font_awesome_preloads', 10, 4);
 
+// Title Tag
+add_theme_support('title-tag');
 
 // Enable Classic Editor
 add_filter('use_block_editor_for_post', '__return_false', 10);
@@ -346,7 +346,7 @@ add_action('acf/init', function () {
             'page_title' => 'Locations',
             'menu_title' => 'Locations',
             'menu_slug' => 'schema-location',
-            'capability' => 'edit_posts',
+            'capability' => 'manage_options',
             'redirect' => false,
         ));
     }

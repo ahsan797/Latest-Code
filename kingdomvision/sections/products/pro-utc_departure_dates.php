@@ -83,7 +83,7 @@ echo '<section class="utc-departure-dates full-section '.esc_attr($section_text_
                                                                 $link_url = $button['url'];
                                                                 $link_title = $button['title'];
                                                                 $link_target = $button['target'] ? $button['target'] : '_self';
-                                                                echo '<a href="'.esc_url($link_url).'" target="'.esc_attr( $link_target ).'" class="btn enquiryNow" data-departureDate="'.esc_html($date).' " data-postTitle="'.esc_attr(get_the_title()).'" data-postID="'.esc_attr(get_the_ID()).'" role="button" aria-label="' . esc_attr($link_title) . '">'.esc_html($link_title).'</a>';
+                                                                echo '<a href="'.esc_url($link_url).'" target="'.esc_attr( $link_target ).'" class="btn enquiryNow" data-departureDate="'.esc_attr($date).' " data-postTitle="'.esc_attr(get_the_title()).'" data-postID="'.esc_attr(get_the_ID()).'" role="button" aria-label="' . esc_attr($link_title) . '">'.esc_html($link_title).'</a>';
                                                             }
                                                         echo '</div>'; #dateEventItem
 

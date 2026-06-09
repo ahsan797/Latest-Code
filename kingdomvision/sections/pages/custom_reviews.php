@@ -50,7 +50,7 @@ echo '<section class="custom-reviews-module full-section '.esc_attr($section_tex
             echo '</div>'; #custReviews
             echo slickSliderArrows($uniqueSectionClass);
             echo '<div class="feefoLogoWrap">';
-                echo '<img src="'.THEME_URL.'/images/feefLogoImg.png" alt="feefo Logo"/>';
+                echo '<img src="'.esc_url(THEME_URL.'/images/feefLogoImg.png').'" alt="feefo Logo"/>';
             echo '</div>'; #feefoLogoWrap
         }
         wp_reset_postdata();

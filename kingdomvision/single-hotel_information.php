@@ -39,7 +39,7 @@ $custom_breadcrumb = get_field('custom_breadcrumb');
             echo '<section id="'. $sectionid .'" class="hotelDetails full-section">';
                 echo '<div class="container">';
                     if($sub_headiing){
-                        echo '<span>'.$sub_headiing.'</span>';
+                        echo '<span>'.esc_html($sub_headiing).'</span>';
                     }
                     if($heading_tags == 'h1'){
                         echo '<h1 class="heading">'.esc_html($object->post_title).'</h1>';

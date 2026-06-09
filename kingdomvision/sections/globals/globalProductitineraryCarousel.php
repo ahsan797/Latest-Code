@@ -36,11 +36,11 @@ echo '<section class="pro-itinerary-carousel full-section '.esc_attr($theme ? $t
         echo '<div class="shipTabWrapper">';
             echo '<div class="container">';
                 echo '<div class="shipTabs">';
-                    foreach($ship_tabs as $key => $tabs){
+                    foreach($ship_tabs as $parentKey => $tabs){
                         $tab_name = $tabs['tab_name'];
 
                         echo '<div class="shipTabsItem">';
-                            echo '<a href="#tab'.$key.'">'.esc_html($tab_name).'</a>';
+                            echo '<a href="#tab'.esc_attr($parentKey).'">'.esc_html($tab_name).'</a>';
                         echo '</div>'; #shipTabsItem
 
                     }
@@ -48,26 +48,26 @@ echo '<section class="pro-itinerary-carousel full-section '.esc_attr($theme ? $t
             echo '</div>'; #container
 
             echo '<div class="shipTabsContent">';
-                foreach($ship_tabs as $key => $tabs){
+                foreach($ship_tabs as $childKey => $tabs){
                     $tab_name = $tabs['tab_name'];
                     $tab_button = $tabs['button'] ?? '';
                     $tab_slides = $tabs['tab_slides'];
                     $tab_content = $tabs['tab_content'];
 
-                    echo '<div class="TabsContItem repeaterArrows" id="tab'.$key.'">';
+                    echo '<div class="TabsContItem repeaterArrows" id="tab'.esc_attr($childKey).'">';
                         if($tab_slides){
                             $slideCounts = count($tab_slides);
                             echo '<div class="tabContSlider '.($slideCounts > 1 ? 'activeSlider' : '').' ">';
-                                foreach($tab_slides as $key => $slide){
+                                foreach($tab_slides as $innerKey => $slide){
                                     $image = $slide['image'];
 
                                     echo '<div class="SlideItem">';
-                                        echo getFocalImage($image, 'image', $pageIndex, $key);
+                                        echo getFocalImage($image, 'image', $pageIndex, $innerKey);
                                     echo '</div>'; #SlideItem
                                 }
                             echo '</div>'; #tabContSlider
                             if($slideCounts > 1){
-                                echo slickSliderArrows('repeaterArrows-'.$key);
+                                echo slickSliderArrows('repeaterArrows-'.$innerKey);
                             }
                         }
                         echo '<div class="tabContWysiwyg">';

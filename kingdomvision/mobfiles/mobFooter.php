@@ -33,7 +33,7 @@ echo '<div class="mobFooter full-section" style="display: none;">';
                         
                         echo '<li>';
                             if($url){
-                                echo '<a href="'.esc_url( $url ).'" target="_blank" aria-label="'.esc_url( $url ).'"><i class="'.$icon.'"></i></a>';
+                                echo '<a href="'.esc_url( $url ).'" target="_blank" aria-label="'.esc_attr(esc_url($url)).'"><i class="'.$icon.'"></i></a>';
                             }else{
                                 echo '<i class="'.$icon.'"></i>';
                             }

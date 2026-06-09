@@ -17,8 +17,6 @@ function reviews_post_type() {
     ));
 }
 
-if (!current_user_can('manage_options')) wp_die(__('Forbidden'));
-
 // Admin Menu: Fetch Reviews Button
 add_action('admin_menu', 'add_reviews_submenu');
 function add_reviews_submenu() {

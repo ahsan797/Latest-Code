@@ -15,6 +15,9 @@ $menu_content = get_field('menu_content' , 'option');
 $objectID = get_queried_object_id();
 $headerLayout = '';
 
+// Header Default/Transparent With Banner Relation
+$banner_slider = get_field('banner_slider', $objectID) ?: [];
+
 // Logic Theme Option & Post
 
 $postHeader = get_field('header_type', $objectID);

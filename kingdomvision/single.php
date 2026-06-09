@@ -22,7 +22,7 @@ echo '<main class="content-wrapper full-section blogSingle">';
 
          if($custom_breadcrumb){
             echo '<section class="breadcrumb-wrapper full-section"
-               role="Breadcrumb" 
+               role="navigation" 
                aria-label="Breadcrumb">';
                echo '<div class="container">'; 
                   echo do_shortcode('[cst-breadcrumbs]');
@@ -32,7 +32,7 @@ echo '<main class="content-wrapper full-section blogSingle">';
 
          if($select_author){
             echo '<section class="authorDetails full-section"
-               role="AuthorDetails" 
+               role="region" 
                aria-label="AuthorDetails">';
                echo '<div class="container">';                   
                   echo '<div class="borderCover">';
@@ -84,16 +84,16 @@ echo '<main class="content-wrapper full-section blogSingle">';
                            $mail = get_field('mail', 'option');
                            echo '<ul>';
                               if($facebook){
-                              echo '<li><a href="//www.facebook.com/sharer/sharer.php?u='.get_the_permalink().'" target="_blank"><i class="fa-brands fa-square-facebook"></i></a></li>';
+                              echo '<li><a href="//www.facebook.com/sharer/sharer.php?u='.esc_url(get_the_permalink()).'" target="_blank"><i class="fa-brands fa-square-facebook"></i></a></li>';
                               }
                               if($twitter){
-                              echo '<li><a href="//twitter.com/intent/tweet?text='.urlencode(get_the_title()).'&amp;url='.get_the_permalink().'" target="_blank"><i class="fa-brands fa-square-twitter"></i></a></li>';
+                              echo '<li><a href="//twitter.com/intent/tweet?text='.urlencode(get_the_title()).'&amp;url='.esc_url(get_the_permalink()).'" target="_blank"><i class="fa-brands fa-square-twitter"></i></a></li>';
                               }
                               if($linkedin){
-                              echo '<li><a href="https://www.linkedin.com/sharing/share-offsite/?url='.get_the_permalink().'" target="_blank"><i class="fa-brands fa-linkedin"></i></a></li>';
+                              echo '<li><a href="https://www.linkedin.com/sharing/share-offsite/?url='.esc_url(get_the_permalink()).'" target="_blank"><i class="fa-brands fa-linkedin"></i></a></li>';
                               }
                               if($mail){
-                              echo '<li><a href="mailto:?subject='.get_the_title().'&amp;body='.get_the_permalink().'"><i class="fa-brands fa-envelope"></i></a></li>';
+                              echo '<li><a href="mailto:?subject='.get_the_title().'&amp;body='.esc_url(get_the_permalink()).'"><i class="fa-brands fa-envelope"></i></a></li>';
                               }
                            echo '</ul>';
                            echo '<span class="closeStory">';

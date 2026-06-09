@@ -94,7 +94,7 @@ echo '</section>'; #map
                 var myLatLng = new google.maps.LatLng(marker[1], marker[2]);
 
                 let iconImg = document.createElement("img");
-                iconImg.src = '<?php echo THEME_URL . "/images/mapointer/mapPointerIcon.png"; ?>';
+                iconImg.src = '<?php echo esc_url(THEME_URL."/images/mapointer/mapPointerIcon.png"); ?>';
 
                 let eachMarker = new google.maps.marker.AdvancedMarkerElement({
                     position: myLatLng,

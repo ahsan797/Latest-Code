@@ -4,7 +4,8 @@ echo '<div class="content-wrapper full-section searchPage">';
 
     $s = get_search_query();
     $args = array(
-        's' =>$s
+        's' =>$s,
+        'posts_per_page' => -1
     );
     $the_query = new WP_Query( $args );
     if ( $the_query->have_posts() ) {
