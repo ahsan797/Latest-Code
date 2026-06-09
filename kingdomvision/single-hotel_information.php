@@ -42,37 +42,29 @@ $custom_breadcrumb = get_field('custom_breadcrumb');
                         echo '<span>'.$sub_headiing.'</span>';
                     }
                     if($heading_tags == 'h1'){
-                        echo '<h1 class="heading">'.$object->post_title.'</h1>';
+                        echo '<h1 class="heading">'.esc_html($object->post_title).'</h1>';
                     }elseif($heading_tags == 'h3'){
-                        echo '<h3 class="heading">'.$object->post_title.'</h3>';
+                        echo '<h3 class="heading">'.esc_html($object->post_title).'</h3>';
                     }elseif($heading_tags == 'h4'){
-                        echo '<h4 class="heading">'.$object->post_title.'</h4>';
+                        echo '<h4 class="heading">'.esc_html($object->post_title).'</h4>';
                     }elseif($heading_tags == 'h5'){
-                        echo '<h5 class="heading">'.$object->post_title.'</h5>';
+                        echo '<h5 class="heading">'.esc_html($object->post_title).'</h5>';
                     }elseif($heading_tags == 'h6'){
-                        echo '<h6 class="heading">'.$object->post_title.'</h6>';
+                        echo '<h6 class="heading">'.esc_html($object->post_title).'</h6>';
                     }else{
-                        echo '<h2 class="heading">'.$object->post_title.'</h2>';
+                        echo '<h2 class="heading">'.esc_html($object->post_title).'</h2>';
                     }
                     if($rating){
                         echo '<div class="starWrapper">';
-                            if($rating == 1){
-                                echo '<i class="fa-solid fa-star"></i>';
-                            }elseif($rating == 2){
-                                echo '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>';
-                            }elseif($rating == 3){
-                                echo '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>';
-                            }elseif($rating == 4){
-                                echo '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>';
-                            }elseif($rating == 5){
-                                echo '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>';
+                            for ($i = 0; $i < $rating; $i++) {
+                                echo '<i class="fa-brand fa-star"></i>';
                             }
                         echo '</div>'; #starWrapper
                     }
 
                     if($hotel_description){
                         echo '<div class="hotelDescription">';
-                            echo $hotel_description;
+                            echo wp_kses_post($hotel_description);
                         echo '</div>'; #hotelDescription
                     }
                 echo '</div>'; #container

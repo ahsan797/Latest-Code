@@ -128,7 +128,7 @@ echo '<section class="five-columns-image full-section '.esc_attr($section_text_c
                     }
                 echo '</div>'; #processSteps
                 if($counts > 1){
-                    echo '<div class="fiveColArrows '.($counts > 4 ? 'activeSlider' : '').'">';
+                    echo '<div class="fiveColArrows '.($counts > 5 ? 'activeSlider' : '').'">';
                         echo slickSliderArrows($uniqueSectionClass);
                     echo '</div>';
                 }

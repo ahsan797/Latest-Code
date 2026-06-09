@@ -10,6 +10,7 @@ if ($debug) {
 define('THEME_PATH', get_template_directory());
 define('THEME_URL', get_template_directory_uri());
 
+
 // Automatically include all PHP files from the /functions directory
 function include_all_functions_files()
 {
@@ -60,7 +61,7 @@ function cf_geo_location()
 {
     // 1. Use existing cookie (same as JS)
     if (!empty($_COOKIE['cc_format'])) {
-        return strtoupper($_COOKIE['cc_format']);
+        return strtoupper(sanitize_text_field($_COOKIE['cc_format']));
     }
 
     $isoCode = 'US'; // default fallback
@@ -284,12 +285,35 @@ function currency_enqueue_scripts()
 }
 add_action('wp_enqueue_scripts', 'currency_enqueue_scripts');
 
-add_action('wp_head', 'cf_preload_fonts', 0);
-function cf_preload_fonts()
+
+add_action('wp_head', 'KvPreloadFonts', 1);
+function KvPreloadFonts()
 { ?>
-    <link rel="preload" as="font" href="<?php echo THEME_URL; ?>/fonts/MinervaModern-Regular.woff2" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preload" as="font" href="<?php echo THEME_URL; ?>/fonts/MinervaModern-Regular.woff2" type="font/woff2" crossorigin>
+    
+<!--     <link rel="preload" href="<?php echo THEME_URL; ?>/fontawesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="<?php echo THEME_URL; ?>/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin> -->
 <?php
 }
+
+// 2. Is style ke load hote hi font files ko automated preload karne ka filter
+function add_font_awesome_preloads($html, $handle, $href, $media) {
+    if ('theme-fontawesome' === $handle) {
+        // THEME_URL ka exact path use karte hue woff2 files ko target karein
+        $brand_font = THEME_URL . '/fontawesome/webfonts/fa-brands-400.woff2';
+        $solid_font = THEME_URL . '/fontawesome/webfonts/fa-solid-900.woff2';
+
+        $preloads =  '<link rel="preload" href="' . esc_url($brand_font) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+        $preloads .= '<link rel="preload" href="' . esc_url($solid_font) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+        
+        // CSS se pehle HTML head me preload links generate honge
+        return $preloads . $html;
+    }
+    return $html;
+}
+add_filter('style_loader_tag', 'add_font_awesome_preloads', 10, 4);
+
 
 // Enable Classic Editor
 add_filter('use_block_editor_for_post', '__return_false', 10);
@@ -1219,7 +1243,7 @@ function blogStructureFromRepeator($rep, $button_text = '', $titleColor = '', $b
             if ($hotelsRating && $post_type == 'hotel_information') {
                 $printable .= '<div class="starWrapper">';
                 for ($i = 0; $i < $hotelsRating; $i++) {
-                    $printable .= '<i class="fa-solid fa-star"></i>';
+                    $printable .= '<i class="fa-brand fa-star"></i>';
                 }
                 $printable .= '</div>'; #starWrapper
             }

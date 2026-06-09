@@ -34,28 +34,14 @@ echo '<div class="menuWrapper full-section" style="display: none;">';
 			echo '</div>'; #logoWrap
             if($au_number || $gb_number || $us_number){
                 echo '<div class="callWrap">';
-                    // if ($currency === 'USD' && !empty($us_number)) {
-                    //     $us_number = preg_replace('/\s+/', '', $us_number);
-                    //     printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));
-                    // } elseif ($currency === 'AUD' && !empty($au_number)) {
-                    //     $au_number = preg_replace('/\s+/', '', $au_number);
-                    //     printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($au_number), esc_html($au_number));
-                    // } elseif ($currency === 'GBP' && !empty($gb_number)) {
-                    //     $gb_number = preg_replace('/\s+/', '', $gb_number);
-                    //     printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($gb_number), esc_html($gb_number));
-                    // } else {
-                    //     $us_number = preg_replace('/\s+/', '', $us_number);
-                    //     printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));            
-                    // }
-
                     echo '<a class="cc-phone phone call_btn" rel="nofollow" href="tel:'.esc_attr($us_number).'">'.esc_html($us_number).'</a>';
 
                         //hidden data
                         echo '<ul style="display:none;">
-                            <li data-curr="USD" data-phone="' . $us_number . '" data-link="' . $us_number . '"></li>
-                            <li data-curr="AUD" data-phone="' . $au_number . '" data-link="' . $au_number . '"></li>
-                            <li data-curr="GBP" data-phone="' . $gb_number . '" data-link="' . $gb_number . '"></li>
-                            <li data-curr="EUR" data-phone="' . $us_number . '" data-link="' . $us_number . '"></li>
+                            <li data-curr="USD" data-phone="' . esc_attr($us_number) . '" data-link="' . esc_attr($us_number) . '"></li>
+                            <li data-curr="AUD" data-phone="' . esc_attr($au_number) . '" data-link="' . esc_attr($au_number) . '"></li>
+                            <li data-curr="GBP" data-phone="' . esc_attr($gb_number) . '" data-link="' . esc_attr($gb_number) . '"></li>
+                            <li data-curr="EUR" data-phone="' . esc_attr($us_number) . '" data-link="' . esc_attr($us_number) . '"></li>
                         </ul>';
                 echo '</div>'; #callWrap
             }
@@ -86,26 +72,15 @@ echo '<div class="menuWrapper full-section" style="display: none;">';
                     echo '<div class="Content">';
                     echo 'Speak to us today<br>';
                     if($au_number || $gb_number || $us_number){
-                            if ($currency === 'USD' && !empty($us_number)) {
-                                $us_number = preg_replace('/\s+/', '', $us_number);
-                                printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));
-                            } elseif ($currency === 'AUD' && !empty($au_number)) {
-                                $au_number = preg_replace('/\s+/', '', $au_number);
-                                printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($au_number), esc_html($au_number));
-                            } elseif ($currency === 'GBP' && !empty($gb_number)) {
-                                $gb_number = preg_replace('/\s+/', '', $gb_number);
-                                printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($gb_number), esc_html($gb_number));
-                            } else {
-                                $us_number = preg_replace('/\s+/', '', $us_number);
-                                printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));            
-                            }
-                                //hidden data
-                                echo '<ul style="display:none;">
-                                    <li data-curr="USD" data-phone="' . $us_number . '" data-link="' . $us_number . '"></li>
-                                    <li data-curr="AUD" data-phone="' . $au_number . '" data-link="' . $au_number . '"></li>
-                                    <li data-curr="GBP" data-phone="' . $gb_number . '" data-link="' . $gb_number . '"></li>
-                                    <li data-curr="EUR" data-phone="' . $us_number . '" data-link="' . $us_number . '"></li>
-                                </ul>';
+
+                            echo '<a class="cc-phone phone call_btn" rel="nofollow" href="tel:'.esc_attr($us_number).'">'.esc_html($us_number).'</a>';
+                            //hidden data
+                            echo '<ul style="display:none;">
+                                <li data-curr="USD" data-phone="' . esc_attr($us_number) . '" data-link="' . esc_attr($us_number) . '"></li>
+                                <li data-curr="AUD" data-phone="' . esc_attr($au_number) . '" data-link="' . esc_attr($au_number) . '"></li>
+                                <li data-curr="GBP" data-phone="' . esc_attr($gb_number) . '" data-link="' . esc_attr($gb_number) . '"></li>
+                                <li data-curr="EUR" data-phone="' . esc_attr($us_number) . '" data-link="' . esc_attr($us_number) . '"></li>
+                            </ul>';
                     }
                         echo $menu_content;
                     echo '</div>'; #Content

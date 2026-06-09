@@ -73,10 +73,10 @@ echo '<div class="mobHeader full-section '.esc_attr($headerResult).'" style="dis
             echo '</a>';
             //hidden data
             echo '<ul style="display:none;">
-                <li data-curr="USD" data-phone="' . esc_attr($us_number) . '" data-link="' . $us_number . '"></li>
-                <li data-curr="AUD" data-phone="' . esc_attr($au_number) . '" data-link="' . $au_number . '"></li>
-                <li data-curr="GBP" data-phone="' . esc_attr($gb_number) . '" data-link="' . $gb_number . '"></li>
-                <li data-curr="EUR" data-phone="' . esc_attr($us_number) . '" data-link="' . $us_number . '"></li>
+                <li data-curr="USD" data-phone="' . esc_attr($us_number) . '" data-link="' . esc_attr($us_number) . '"></li>
+                <li data-curr="AUD" data-phone="' . esc_attr($au_number) . '" data-link="' . esc_attr($au_number) . '"></li>
+                <li data-curr="GBP" data-phone="' . esc_attr($gb_number) . '" data-link="' . esc_attr($gb_number) . '"></li>
+                <li data-curr="EUR" data-phone="' . esc_attr($us_number) . '" data-link="' . esc_attr($us_number) . '"></li>
             </ul>';
         echo '</div>'; //mobile_phone
 
@@ -119,7 +119,7 @@ echo '<div class="mobHeader full-section '.esc_attr($headerResult).'" style="dis
 								esc_attr($code),
 								$sign,
 								esc_html($code),
-								$flag_url,
+								esc_url($flag_url),
 								esc_html($code)
 							);
 						}

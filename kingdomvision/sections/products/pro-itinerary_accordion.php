@@ -136,7 +136,7 @@ echo '<section class="itinerary-accordion full-section '.esc_attr($section_text_
                                             if($rating){
                                                  $printable .= '<div class="starWrapper">';
                                                     for ($i = 0; $i < $rating; $i++) {
-                                                        $printable .= '<i class="fa-solid fa-star"></i>';
+                                                        $printable .= '<i class="fa-brand fa-star"></i>';
                                                     }
                                                 $printable .= '</div>'; #starWrapper
                                             }

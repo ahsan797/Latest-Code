@@ -87,13 +87,13 @@ echo '<main class="content-wrapper full-section blogSingle">';
                               echo '<li><a href="//www.facebook.com/sharer/sharer.php?u='.get_the_permalink().'" target="_blank"><i class="fa-brands fa-square-facebook"></i></a></li>';
                               }
                               if($twitter){
-                              echo '<li><a href="//twitter.com/intent/tweet?text='.get_the_title().'&amp;url='.get_the_permalink().'" target="_blank"><i class="fa-brands fa-square-twitter"></i></a></li>';
+                              echo '<li><a href="//twitter.com/intent/tweet?text='.urlencode(get_the_title()).'&amp;url='.get_the_permalink().'" target="_blank"><i class="fa-brands fa-square-twitter"></i></a></li>';
                               }
                               if($linkedin){
                               echo '<li><a href="https://www.linkedin.com/sharing/share-offsite/?url='.get_the_permalink().'" target="_blank"><i class="fa-brands fa-linkedin"></i></a></li>';
                               }
                               if($mail){
-                              echo '<li><a href="mailto:?subject='.get_the_title().'&amp;body='.get_the_permalink().'"><i class="fa-solid fa-envelope"></i></a></li>';
+                              echo '<li><a href="mailto:?subject='.get_the_title().'&amp;body='.get_the_permalink().'"><i class="fa-brands fa-envelope"></i></a></li>';
                               }
                            echo '</ul>';
                            echo '<span class="closeStory">';

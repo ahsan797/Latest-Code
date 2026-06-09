@@ -111,7 +111,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 								esc_attr($code),
 								$sign,
 								esc_html($code),
-								$flag_url,
+								esc_url($flag_url),
 								esc_html($code)
 							);
 						}
@@ -142,10 +142,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 						//hidden data
                         echo '<ul style="display:none;">
-                            <li data-curr="USD" data-phone="' . esc_attr($us_number) . '" data-link="' . $us_number . '"></li>
-                            <li data-curr="AUD" data-phone="' . esc_attr($au_number) . '" data-link="' . $au_number . '"></li>
-                            <li data-curr="GBP" data-phone="' . esc_attr($gb_number) . '" data-link="' . $gb_number . '"></li>
-                            <li data-curr="EUR" data-phone="' . esc_attr($us_number) . '" data-link="' . $us_number . '"></li>
+                            <li data-curr="USD" data-phone="' . esc_attr($us_number) . '" data-link="' . esc_attr($us_number) . '"></li>
+                            <li data-curr="AUD" data-phone="' . esc_attr($au_number) . '" data-link="' . esc_attr($au_number) . '"></li>
+                            <li data-curr="GBP" data-phone="' . esc_attr($gb_number) . '" data-link="' . esc_attr($gb_number) . '"></li>
+                            <li data-curr="EUR" data-phone="' . esc_attr($us_number) . '" data-link="' . esc_attr($us_number) . '"></li>
                         </ul>';
 						
 					echo '</div>'; #callWrap

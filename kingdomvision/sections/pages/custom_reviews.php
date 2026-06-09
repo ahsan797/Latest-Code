@@ -33,7 +33,7 @@ echo '<section class="custom-reviews-module full-section '.esc_attr($section_tex
                             if($rating){
                                 echo '<div class="starWrapper">';
                                     for ($i = 0; $i < $rating; $i++) {
-                                        echo '<i class="fa-solid fa-star"></i>';
+                                        echo '<i class="fa-brand fa-star"></i>';
                                     }
                                 echo '</div>'; #starWrapper
                             }

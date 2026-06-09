@@ -103,7 +103,7 @@ echo '<section class="cta-with-team full-section global  '.esc_attr($section_tex
                                 }
                                 if($profile_image){
                                     echo '<div class="teamImg">';
-                                        echo wp_get_attachment_image($profile_image, 'full', false, ['loading' => 'eager']);
+                                        echo wp_get_attachment_image($profile_image, 'full', false, ['loading' => 'lazy']);
                                     echo '</div>'; #teamImg
                                 }
                                 if($name || $designation){

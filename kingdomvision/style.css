@@ -8,12 +8,13 @@ Text Domain: kingdomvision
 */
 
 /*Basic Style*/
-@import url('//fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/*@import url('//fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');*/
 @font-face {
   font-family: "MinervaModern";
-  src: url("fonts/MinervaModern-Regular.woff2") format("woff2"),
+  src: url("fonts/MinervaModern-Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 html { -webkit-text-size-adjust: none; scroll-behavior: smooth; }
 body { overflow-x: hidden; margin: 0; font-family: "Montserrat", Arial, sans-serif; line-height: 1.42857; font-size: var(--body-font-size); color: var(--body-color);}
@@ -735,9 +736,10 @@ section.authorDetails .authorData span { letter-spacing: 1.2px; text-transform: 
 section.authorDetails .borderCover .storyWrapper { position: relative; }
 section.authorDetails .borderCover .storyShare { position: absolute; top: 0; background-color: #faf8f5; padding: 10px; border-radius: 30px; display: flex; align-items: center; right: 0; }
 section.authorDetails .borderCover .storyShare ul { padding: 0; margin: 0 15px 0 0; display: flex; align-items: center; gap: 15px; }
-section.authorDetails .borderCover .storyShare ul li { list-style: none; font-size: 20px; }
+section.authorDetails .borderCover .storyShare ul li { list-style: none; font-size: 20px; margin-bottom:0; }
 section.authorDetails .borderCover .storyShare ul li a { color: #171C3B; }
 section.authorDetails .borderCover .storyShare ul li a:hover { color: #BB5B3E; }
+section.authorDetails .borderCover .storyShare ul li a i { font-family: 'fontawesome'; font-style: normal; }
 section.authorDetails .borderCover .storyShare span.closeStory { cursor: pointer; }
 
 section.jumplinksWrapper { background: #F2E2C4; padding: 15px 0; margin-bottom: 95px; }
@@ -1012,7 +1014,7 @@ section.custom-reviews-module .custReviews.slick-slider .revStar { display: flex
 section.custom-reviews-module .custReviews.slick-slider .revStar .feefoLogoWrap { width: 100%; margin-bottom: 20px; }
 section.custom-reviews-module .custReviews.slick-slider .revStar .feefoLogoWrap img { max-width: 100px; width: 100%; margin: 0 auto; }
 section.custom-reviews-module .custReviews.slick-slider .revStar .starWrapper { width: 100%; text-align: center; }
-section.custom-reviews-module .custReviews.slick-slider .revStar i { color: #F28748; font-size: 25px; margin-right: 4.5px; }
+section.custom-reviews-module .custReviews.slick-slider .revStar i { color: #F28748; font-size: 25px; margin-right: 4.5px; font-family: 'fontawesome'; font-style: normal; }
 section.custom-reviews-module .custReviews.slick-slider .revStar i:last-child { margin-right: 0; }
 section.custom-reviews-module .custReviews.slick-slider .revCont h3 { font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; font-size: 14px; color: #F2E2C4; text-align: center; min-height: 40px; }
 section.custom-reviews-module .custReviews.slick-slider .revCont { font-size: 12px; color: #ffffff; text-align: center; line-height: 22px; }
@@ -1349,7 +1351,7 @@ section.itinerary-accordion .accContent .hotelSliderWrapper .hotelBox .hotelCont
 section.itinerary-accordion .accContent .hotelSliderWrapper .hotelBox .hotelImg img { width: 100%; height: 247px; object-fit: cover; }
 section.itinerary-accordion .accContent .hotelSliderWrapper .hotelBox .hotelContent h3 { font-size: 14px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; margin-bottom: 10px; }
 section.itinerary-accordion .accContent .hotelSliderWrapper .hotelBox .hotelContent  .starWrapper { margin-bottom: 30px; display: flex; align-items: center; gap: 3px; }
-section.itinerary-accordion .accContent .hotelSliderWrapper .hotelBox .hotelContent .starWrapper i { color: #F28748; font-size: 20px; }
+section.itinerary-accordion .accContent .hotelSliderWrapper .hotelBox .hotelContent .starWrapper i { color: #F28748; font-size: 20px; font-family: 'fontawesome'; font-style: normal; }
 section.itinerary-accordion .accContent .accTitleWrapper span { font-size: 34px; font-weight: 400; font-family: MinervaModern; color: #BB5B3E; }
 
 section.itinerary-accordion .accContent .imagesWrapper .slick-list { padding: 0 !important; }
@@ -1602,7 +1604,7 @@ section.hotelDetails span { font-size: 18px; font-weight: 600; letter-spacing: 1
 section.hotelDetails h2.heading, 
 section.hotelDetails h1.heading { font-size: 47px; font-style: normal; font-weight: 400; color: #BB5B3E; }
 section.hotelDetails .starWrapper { display: flex; align-items: center; justify-content: center; margin-bottom: 30px; }
-section.hotelDetails .starWrapper i { color: #171C3B; margin-right: 10px; }
+section.hotelDetails .starWrapper i { color: #171C3B; margin-right: 10px; font-family: 'fontawesome'; font-style: normal; }
 section.hotelDetails .starWrapper i:last-child { margin-right: 0; }
 section.hotelDetails .hotelDescription p { font-size: 14px; font-style: normal; font-weight: 500; }
 section.hotelDetails .hotelDescription { max-width: 800px; margin: 0 auto; }
