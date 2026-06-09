@@ -43,8 +43,9 @@ echo '</section>'; #map
 ?>
 <script>
 (function () {
-    var map_marker = <?php echo isset($map_arr) ? json_encode($map_arr) : '[]'; ?>;
-    var map_id = "<?php echo $unique_map_id; ?>";
+    var map_marker = <?php echo isset($map_arr) ? wp_json_encode($map_arr) : '[]'; ?>;
+    // var map_id = "<?php echo $unique_map_id; ?>";
+    var map_id = "<?php echo esc_js($unique_map_id) ?>";
 
     function initialize() {
         console.log(map_marker);

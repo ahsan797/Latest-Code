@@ -66,9 +66,9 @@ echo '<section class="utc-form full-section '.esc_attr($section_text_color).' '.
                         }
                     }
                     // if($member_data){
-                        $profile_image = $member_data['profile_image'] ?: '';
-                        $name = $member_data['name'] ?: '';
-                        $designation = $member_data['designation'] ?: '';
+                        $profile_image = $member_data['profile_image'] ?? '';
+                        $name = $member_data['name'] ?? '';
+                        $designation = $member_data['designation'] ?? '';
                         echo '<div class="authorImg">';
                             echo '<div class="teamImg">';
                                 if(empty($selected_name)){
@@ -93,19 +93,7 @@ echo '<section class="utc-form full-section '.esc_attr($section_text_color).' '.
                             if($au_number || $gb_number || $us_number){
                                 echo '<div class="callWrap numbers-switcher">';
                                     echo '<span>Call: </span>';
-                                    if ($currency === 'USD' && !empty($us_number)) {
-                                        $us_number = preg_replace('/\s+/', '', $us_number);
-                                        printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));
-                                    } elseif ($currency === 'AUD' && !empty($au_number)) {
-                                        $au_number = preg_replace('/\s+/', '', $au_number);
-                                        printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($au_number), esc_html($au_number));
-                                    } elseif ($currency === 'GBP' && !empty($gb_number)) {
-                                        $gb_number = preg_replace('/\s+/', '', $gb_number);
-                                        printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($gb_number), esc_html($gb_number));
-                                    } else {
-                                        $us_number = preg_replace('/\s+/', '', $us_number);
-                                        printf('<a class="cc-phone phone call_btn" rel="nofollow" href="tel:%s">%s</a>', esc_attr($us_number), esc_html($us_number));            
-                                    }
+                                    echo '<a class="cc-phone phone call_btn" rel="nofollow" href="tel:'.esc_attr($us_number).'">'.esc_html($us_number).'</a>';
                                 echo '</div>'; #callWrap
 
                             }

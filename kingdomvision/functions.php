@@ -144,10 +144,12 @@ function theme_files()
     wp_register_script('kv-script', THEME_URL . '/js/kv-script.js', array('jquery'),  filemtime(get_theme_file_path('/js/kv-script.js')), true);
     wp_enqueue_script('kv-script');
 
-    // calander-kv
-    wp_register_script('calander-kv', THEME_URL . '/js/kv-calander.js', array('jquery'),  '1.2', true);
-    wp_enqueue_script('calander-kv');
-
+    if(! is_front_page()){
+        // calander-kv
+        wp_register_script('calander-kv', THEME_URL . '/js/kv-calander.js', array('jquery'),  '1.2', true);
+        wp_enqueue_script('calander-kv');
+    }
+    
     // Cloudflare Stream SDK
     wp_enqueue_script('cloudflare-stream', 'https://embed.cloudflarestream.com/embed/sdk.latest.js', array(), null, true);
 
@@ -1755,7 +1757,7 @@ function getFocalImage($imageField, $imageFieldName = '', $pageIndex = '', $repe
     $dynamicImgUrl = $focalUrl ?: wp_get_attachment_image_url($imageField, 'full');
     $imgMeta = get_post_meta($imageField, '_wp_attachment_image_alt', true);
 
-    return '<img src="' . esc_url($dynamicImgUrl) . '" alt="' . esc_attr($imgMeta) . '" ' . ($styleAttr ? 'style="' . esc_attr($styleAttr) . '"' : '') . ' '.($loading ? 'loading="'.$loading.'"' : '').' '.($fetchpriority ? 'fetchpriority="'.$fetchpriority.'"' : '').'>';
+    return '<img src="' . esc_url($dynamicImgUrl) . '" alt="' . esc_attr($imgMeta) . '" decoding="async" ' . ($styleAttr ? 'style="' . esc_attr($styleAttr) . '"' : '') . ' '.($loading ? 'loading="'.$loading.'"' : '').' '.($fetchpriority ? 'fetchpriority="'.$fetchpriority.'"' : '').'>';
 }
 
 function getFocalImageUrl($imageField, $imageFieldName = '', $pageIndex = '', $repeaterKey = 0,)

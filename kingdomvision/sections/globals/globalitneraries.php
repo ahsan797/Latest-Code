@@ -75,7 +75,7 @@ echo '<section class="itineraries-module full-section '.esc_attr($theme ? $theme
                                     }
                                     if($short_description){
                                         echo '<div class="content proDescription">';
-                                            echo $short_description;
+                                            echo wp_kses_post($short_description);
                                         echo '</div>'; #content
                                     }
                                     if($itemUrl){

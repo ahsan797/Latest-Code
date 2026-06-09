@@ -32,7 +32,7 @@ echo '<section class="utc-departure-dates-updated full-section '.esc_attr($secti
 
                         if($months_event){
                             echo '<div class="yearsItem">';
-                                echo '<a href="#years'.$key.'">'.esc_html($years).'</a>';
+                                echo '<a href="#years'.esc_attr($key).'">'.esc_html($years).'</a>';
                             echo '</div>'; #yearsItem
                         }
 
@@ -43,7 +43,7 @@ echo '<section class="utc-departure-dates-updated full-section '.esc_attr($secti
                         $years = $cal['years'];
                         $months_event = $cal['months_event'];
 
-                        echo '<div class="yearsTabItem" id="years'.$key.'">';
+                        echo '<div class="yearsTabItem" id="years'.esc_attr($key).'">';
                             
                             if($months_event){
                                     foreach($months_event as $mkey => $monthEvent){
@@ -88,7 +88,7 @@ echo '<section class="utc-departure-dates-updated full-section '.esc_attr($secti
                                                                 echo '</div>'; #dataWrap
                                                                 echo '<div class="btnWrap">';
                                                                     echo '<a href="'.($button_url ? $button_url : 'javascript:;' ).'" class="csbtn enquiryNow" 
-                                                                            data-departureDate="'.$day.' '.$month.' '.$year.'"
+                                                                            data-departureDate="'.esc_attr($day).' '.esc_attr($month).' '.esc_attr($year).'"
                                                                             data-departureEvent="'.esc_attr($event_name).'" 
                                                                             data-postID="'.esc_attr(get_the_ID()).'" 
                                                                             data-postTitle="'.esc_attr(get_the_title()).'"

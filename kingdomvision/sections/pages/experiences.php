@@ -70,7 +70,7 @@ echo '<section class="experience-module full-section '.esc_attr($section_text_co
                                     }else{
                                         echo '<div class="content">';
                                             $content_trimmed = wp_trim_words(wp_strip_all_tags($itemCont), 20, '...');
-                                            echo $content_trimmed;
+                                            echo esc_html($content_trimmed);
                                         echo '</div>'; #content
                                     }
                                 echo '</div>';

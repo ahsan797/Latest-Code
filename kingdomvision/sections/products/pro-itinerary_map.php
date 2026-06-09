@@ -92,7 +92,7 @@ echo '</section>'; #glance_updated
 ?>
 
 <script>
-var itineraryMap_marker = <?php echo isset($map_arr) ? json_encode($map_arr) : '[]'; ?>;
+var itineraryMap_marker = <?php echo isset($map_arr) ? wp_json_encode($map_arr) : '[]'; ?>;
 
 function itineraryMapInitialize() {
     console.log(itineraryMap_marker);
